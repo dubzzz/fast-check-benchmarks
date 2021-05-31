@@ -1,0 +1,16 @@
+name: Default
+on: workflow_dispatch
+jobs:
+  benchmark:
+    name: "Benchmark"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Using Node v16.x
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: "16.x"
+      - name: Install dependencies
+        run: npm install
+      - name: Run benchmark
+        run: npm run test
