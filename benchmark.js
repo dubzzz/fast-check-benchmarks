@@ -172,12 +172,12 @@ const performanceTests = [
   {
     name: "Property(<tree-with-letrec>)",
     run: (fc) => {
-      const { tree } = fc.letrec((tie) => ({
+      const { node } = fc.letrec((tie) => ({
         tree: fc.oneof(tie("leaf"), tie("leaf"), tie("leaf"), tie("node")),
         node: fc.tuple(tie("tree"), tie("tree")),
         leaf: fc.nat(),
       }));
-      fc.assert(fc.property(tree, (_unused) => true));
+      fc.assert(fc.property(node, (_unused) => true));
     },
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
