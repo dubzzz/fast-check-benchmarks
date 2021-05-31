@@ -90,6 +90,13 @@ const performanceTests = [
     minimalRequirements: { major: 2, minor: 6, patch: 0 },
   },
   {
+    name: "Property(fc.char())",
+    run: (fc) => {
+      fc.assert(fc.property(fc.char(), (_unused) => true));
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
     name: "Property(fc.string())",
     run: (fc) => {
       fc.assert(fc.property(fc.string(), (_unused) => true));
@@ -102,6 +109,13 @@ const performanceTests = [
       fc.assert(fc.property(fc.array(fc.integer()), (_unused) => true));
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
+    name: "Property(fc.set(fc.integer()))",
+    run: (fc) => {
+      fc.assert(fc.property(fc.set(fc.integer()), (_unused) => true));
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
     name: "Property(fc.constant('a'))",
