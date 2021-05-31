@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "fast-check-benchmarks",
+  "version": "1.0.0",
+  "description": "Various benchmarks around fast-check: mostly to measure improvements of the lib itself",
+  "main": "index.js",
+  "scripts": {
+    "test": "node benchmark.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dubzzz/fast-check-benchmarks.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dubzzz/fast-check-benchmarks/issues"
+  },
+  "homepage": "https://github.com/dubzzz/fast-check-benchmarks#readme",
+  "dependencies": {
+    "benchmark": "^2.1.4",
+    "fc-2.0.0": "npm:fast-check@2.0.0",
+    "fc-2.1.0": "npm:fast-check@2.1.0",
+    "fc-2.2.0": "npm:fast-check@2.2.0",
+    "fc-2.3.0": "npm:fast-check@2.3.0",
+    "fc-2.4.0": "npm:fast-check@2.4.0",
+    "fc-2.5.0": "npm:fast-check@2.5.0",
+    "fc-2.6.0": "npm:fast-check@2.6.0",
+    "fc-2.7.0": "npm:fast-check@2.7.0",
+    "fc-2.8.0": "npm:fast-check@2.8.0",
+    "fc-2.9.0": "npm:fast-check@2.9.0",
+    "fc-2.10.0": "npm:fast-check@2.10.0",
+    "fc-2.11.0": "npm:fast-check@2.11.0",
+    "fc-2.12.0": "npm:fast-check@2.12.0",
+    "fc-2.13.0": "npm:fast-check@2.13.0",
+    "fc-2.14.0": "npm:fast-check@2.14.0",
+    "fc-2.15.0": "npm:fast-check@2.15.0"
+  }
+}
