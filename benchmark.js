@@ -181,6 +181,56 @@ const performanceTests = [
     },
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
+  {
+    name: "Property(fc.integer().filter(() => true))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc.integer().filter(() => true),
+          (_unused) => true
+        )
+      );
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
+    name: "Property(fc.integer().map(n => n))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc.integer().map((n) => n),
+          (_unused) => true
+        )
+      );
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
+    name: "Property(fc.integer().chain(() => fc.integer()))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc.integer().chain(() => fc.integer()),
+          (_unused) => true
+        )
+      );
+    },
+    minimalRequirements: { major: 1, minor: 2, patch: 0 },
+  },
+  {
+    name: "Property(fc.integer().noBias())",
+    run: (fc) => {
+      fc.assert(fc.property(fc.integer().noBias(), (_unused) => true));
+    },
+    minimalRequirements: { major: 1, minor: 1, patch: 0 },
+  },
+  {
+    name: "Property(fc.integer().noShrink())",
+    run: (fc) => {
+      fc.assert(fc.property(fc.integer().noShrink(), (_unused) => true));
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 9 },
+  },
 ];
 
 async function run() {
