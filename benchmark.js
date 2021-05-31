@@ -118,6 +118,13 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 12 },
   },
   {
+    name: "Property(fc.option(fc.integer()))",
+    run: (fc) => {
+      fc.assert(fc.property(fc.option(fc.integer()), (_unused) => true));
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 6 },
+  },
+  {
     name: "Property(fc.oneof(fc.ascii(), fc.hexa()))",
     run: (fc) => {
       fc.assert(
