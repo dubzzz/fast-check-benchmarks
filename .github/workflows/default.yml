@@ -2,9 +2,9 @@ name: Default
 on:
   workflow_dispatch:
     inputs:
-      extraVersionPath:
-        description: "Extra version for fast-check (default to master)"
-        required: true
+      extraVersion:
+        description: "Extra version (default to fast-check@main)"
+        required: false
 jobs:
   benchmark:
     name: "Benchmark"
@@ -17,10 +17,10 @@ jobs:
           node-version: "16.x"
       - name: Install dependencies
         run: npm install
-      - if: github.event.inputs.extraVersionPath != ''
+      - if: github.event.inputs.extraVersion != ''
         name: Install extra dependency
-        run: npm install fc-99.99.99@${{github.event.inputs.extraVersionPath}}
-      - if: github.event.inputs.extraVersionPath == ''
+        run: npm install fc-99.99.99@${{github.event.inputs.extraVersion}}
+      - if: github.event.inputs.extraVersion == ''
         name: Package and Install extra dependency
         run: |
           git clone --depth 1 https://github.com/dubzzz/fast-check.git
