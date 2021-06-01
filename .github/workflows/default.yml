@@ -3,9 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       extraVersionPath:
-        description: "Extra version for fast-check (or url to tar gz)"
+        description: "Extra version for fast-check (default to master)"
         required: true
-        default: "npm:fast-check"
 jobs:
   benchmark:
     name: "Benchmark"
@@ -18,7 +17,19 @@ jobs:
           node-version: "16.x"
       - name: Install dependencies
         run: npm install
-      - name: Install extra dependency
+      - if: github.event.inputs.extraVersionPath != ''
+        name: Install extra dependency
         run: npm install fc-99.99.99@${{github.event.inputs.extraVersionPath}}
+      - if: github.event.inputs.extraVersionPath == ''
+        name: Package and Install extra dependency
+        run: |
+          git clone --depth 1 https://github.com/dubzzz/fast-check.git
+          cd fast-check
+          yarn
+          yarn build:prod-ci
+          yarn pack
+          mv fast-check-*.tgz fast-check.tgz
+          cd ..
+          npm install fc-99.99.99@./fast-check/fast-check.tgz
       - name: Run benchmark
         run: npm run test
