@@ -267,34 +267,75 @@ async function run() {
     importVersion(2, 15, 0),
   ]);
 
+  const performanceTestsIncBenchmarks = performanceTests.map((definition) => [
+    definition,
+    [],
+  ]);
+
   /** @type {Benchmark[]} */
-  const benchmarks = [];
-  for (const [fc, version] of fastCheckVersions) {
-    for (const testDefinition of performanceTests) {
-      if (!isCompatible(version, testDefinition.minimalRequirements)) {
+  const allBenchmarks = [];
+  for (const [definition, benchmarks] of performanceTestsIncBenchmarks) {
+    for (const [fc, version] of fastCheckVersions) {
+      if (!isCompatible(version, definition.minimalRequirements)) {
+        benchmarks.push(null);
         continue;
       }
       // Dry run...
       // Just to avoid that benchmark pre-optimize one path because first test only deals with small numbers
       // while others passing by the same code paths deal with mor complex structures pushing to optimization losts.
       for (let idx = 0; idx !== 100; ++idx) {
-        testDefinition.run(fc);
+        definition.run(fc);
       }
       // Create benchmark
-      benchmarks.push(
-        new Benchmark(
-          `${testDefinition.name} on fast-check@${prettyPrintVersion(version)}`,
-          () => testDefinition.run(fc)
-        )
+      const b = new Benchmark(
+        `${definition.name} on fast-check@${prettyPrintVersion(version)}`,
+        () => definition.run(fc)
       );
+      benchmarks.push(b);
+      allBenchmarks.push(b);
     }
   }
 
   // Run benchmarks
-  Benchmark.invoke(benchmarks, {
+  Benchmark.invoke(allBenchmarks, {
     name: "run",
     queued: true,
     onCycle: (event) => console.log(String(event.target)),
   });
+
+  // Create basic hz CSV
+  console.log("\n\n--- hz CSV ---\n\n");
+  console.log(
+    [
+      "Algorithm",
+      ...fastCheckVersions.map(([_, version]) => prettyPrintVersion(version)),
+    ].join(";")
+  );
+  for (const [definition, benchmarks] of performanceTestsIncBenchmarks) {
+    console.log(
+      [
+        definition.name,
+        ...benchmarks.map((b) => (b !== null ? b.hz : "")),
+      ].join(";")
+    );
+  }
+
+  // Create basic compare CSV
+  console.log("\n\n--- variation-to-ref CSV ---\n\n");
+  console.log(
+    [
+      "Algorithm",
+      ...fastCheckVersions.map(([_, version]) => prettyPrintVersion(version)),
+    ].join(";")
+  );
+  for (const [definition, benchmarks] of performanceTestsIncBenchmarks) {
+    const refHz = benchmarks.find((b) => b !== null).hz;
+    console.log(
+      [
+        definition.name,
+        ...benchmarks.map((b) => (b !== null ? b.hz / refHz : "")),
+      ].join(";")
+    );
+  }
 }
 run().catch((err) => console.error(err));
