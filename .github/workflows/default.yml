@@ -1,5 +1,11 @@
 name: Default
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      extraVersionPath:
+        description: "Extra version for fast-check (or url to tar gz)"
+        required: true
+        default: "npm:fast-check"
 jobs:
   benchmark:
     name: "Benchmark"
@@ -12,5 +18,7 @@ jobs:
           node-version: "16.x"
       - name: Install dependencies
         run: npm install
+      - name: Install extra dependency
+        run: npm install fc-99.99.99@${{github.event.inputs.extraVersionPath}}
       - name: Run benchmark
         run: npm run test

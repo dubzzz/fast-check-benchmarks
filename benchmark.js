@@ -265,6 +265,7 @@ async function run() {
     importVersion(2, 13, 0),
     importVersion(2, 14, 0),
     importVersion(2, 15, 0),
+    importVersion(99, 99, 99),
   ]);
 
   const performanceTestsIncBenchmarks = performanceTests.map((definition) => [
