@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       extraVersion:
-        description: "Extra version (default to fast-check@main)"
+        description: "Extra version (default: fast-check@main)"
         required: false
 jobs:
   benchmark:
