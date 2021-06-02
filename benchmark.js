@@ -37,6 +37,10 @@ function isCompatible(version, minimalRequirements) {
  * @returns {string}
  */
 function prettyPrintVersion(version) {
+  if (version.major === 99 && version.minor === 99) {
+    if (version.patch === 98) return "main";
+    if (version.patch === 99) return "extra";
+  }
   return `${version.major}.${version.minor}.${version.patch}`;
 }
 
