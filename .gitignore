@@ -1,1 +1,4 @@
+deopt.out
 node_modules
+v8.log
+v8.out

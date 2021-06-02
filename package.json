@@ -6,6 +6,9 @@
   "description": "Various benchmarks around fast-check: mostly to measure improvements of the lib itself",
   "main": "index.js",
   "scripts": {
+    "inspect": "node --inspect-brk profile.js",
+    "profile": "node --prof --no-logfile-per-isolate --trace-deopt --trace-opt-verbose profile.js > deopt.out && node --prof-process v8.log > v8.out",
+    "profile:deep": "node --prof --no-logfile-per-isolate --trace-deopt --trace-opt-verbose --code-comments --print-opt-code profile.js > deopt.out && node --prof-process v8.log > v8.out",
     "test": "node benchmark.js"
   },
   "repository": {
@@ -36,6 +39,7 @@
     "fc-2.7.0": "npm:fast-check@2.7.0",
     "fc-2.8.0": "npm:fast-check@2.8.0",
     "fc-2.9.0": "npm:fast-check@2.9.0",
-    "fc-99.99.99": "npm:fast-check@^2.15.0"
+    "fc-99.99.98": "npm:fast-check@*",
+    "fc-99.99.99": "npm:fast-check@*"
   }
 }
