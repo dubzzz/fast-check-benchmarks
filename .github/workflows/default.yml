@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       extraVersion:
-        description: "Extra version (default: fast-check@main)"
+        description: "Extra version"
         required: false
 jobs:
   benchmark:
@@ -17,11 +17,7 @@ jobs:
           node-version: "16.x"
       - name: Install dependencies
         run: npm install
-      - if: github.event.inputs.extraVersion != ''
-        name: Install extra dependency
-        run: npm install fc-99.99.99@${{github.event.inputs.extraVersion}}
-      - if: github.event.inputs.extraVersion == ''
-        name: Package and Install extra dependency
+      - name: Package and Install extra dependency
         run: |
           git clone --depth 1 https://github.com/dubzzz/fast-check.git
           cd fast-check
@@ -30,6 +26,12 @@ jobs:
           yarn pack
           mv fast-check-*.tgz fast-check.tgz
           cd ..
+          npm install fc-99.99.98@./fast-check/fast-check.tgz
           npm install fc-99.99.99@./fast-check/fast-check.tgz
+      - if: github.event.inputs.extraVersion != ''
+        name: Install extra dependency
+        run: npm install fc-99.99.99@${{github.event.inputs.extraVersion}}
       - name: Run benchmark
-        run: npm run test
+        run: |
+          export EXTRA_VERSION="${{github.event.inputs.extraVersion}}"
+          npm run test
