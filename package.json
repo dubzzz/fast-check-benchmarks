@@ -9,7 +9,7 @@
     "inspect": "node --inspect-brk profile.js",
     "profile": "node --prof --no-logfile-per-isolate --trace-deopt --trace-opt-verbose profile.js > deopt.out && node --prof-process v8.log > v8.out",
     "profile:deep": "node --prof --no-logfile-per-isolate --trace-deopt --trace-opt-verbose --code-comments --print-opt-code profile.js > deopt.out && node --prof-process v8.log > v8.out",
-    "test": "node benchmark.js"
+    "test": "node --experimental-import-meta-resolve benchmark.js"
   },
   "repository": {
     "type": "git",

@@ -8,11 +8,13 @@ import process from "process";
  * @param {number} major
  * @param {number} minor
  * @param {number} patch
- * @returns {Promise<[any, {major:number,minor:number,patch:number}]>}
+ * @returns {Promise<[any, {major:number,minor:number,patch:number}, string]>}
  */
 async function importVersion(major, minor, patch) {
-  const lib = await import(`fc-${major}.${minor}.${patch}`);
-  return [lib, { major, minor, patch }];
+  const libName = `fc-${major}.${minor}.${patch}`;
+  const lib = await import(libName);
+  const libPath = await import.meta.resolve(libName);
+  return [lib, { major, minor, patch }, libPath];
 }
 
 /**
@@ -273,6 +275,19 @@ async function run() {
     importVersion(99, 99, 98),
     ...(process.env.EXTRA_VERSION ? [importVersion(99, 99, 99)] : []),
   ]);
+
+  for (const [fc, version, url] of fastCheckVersions) {
+    const aliasVersion = prettyPrintVersion(version);
+    const officialVersion =
+      fc.__version !== undefined ? `${fc.__version}[${fc.__type}]` : "N.A";
+    const link =
+      fc.__commitHash !== undefined
+        ? `https://github.com/dubzzz/fast-check/tree/${fc.__commitHash}`
+        : undefined;
+    console.log(`Details on ${aliasVersion}:`);
+    console.log(`official tag: ${officialVersion}${link ? ` at ${link}` : ""}`);
+    console.log(`module url: ${url}\n`);
+  }
 
   const performanceTestsIncBenchmarks = performanceTests.map((definition) => [
     definition,
