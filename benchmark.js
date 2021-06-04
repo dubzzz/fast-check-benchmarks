@@ -324,23 +324,23 @@ async function run() {
     : onlyLastNVersionsEnv;
   const fastCheckVersions = await Promise.all([
     ...[
-    importVersion(2, 0, 0),
-    importVersion(2, 1, 0),
-    importVersion(2, 2, 0),
-    importVersion(2, 3, 0),
-    importVersion(2, 4, 0),
-    importVersion(2, 5, 0),
-    importVersion(2, 6, 0),
-    importVersion(2, 7, 0),
-    importVersion(2, 8, 0),
-    importVersion(2, 9, 0),
-    importVersion(2, 10, 0),
-    importVersion(2, 11, 0),
-    importVersion(2, 12, 0),
-    importVersion(2, 13, 0),
-    importVersion(2, 14, 0),
-    importVersion(2, 15, 0),
-    importVersion(2, 16, 0),
+      importVersion(2, 0, 0),
+      importVersion(2, 1, 0),
+      importVersion(2, 2, 0),
+      importVersion(2, 3, 0),
+      importVersion(2, 4, 0),
+      importVersion(2, 5, 0),
+      importVersion(2, 6, 0),
+      importVersion(2, 7, 0),
+      importVersion(2, 8, 0),
+      importVersion(2, 9, 0),
+      importVersion(2, 10, 0),
+      importVersion(2, 11, 0),
+      importVersion(2, 12, 0),
+      importVersion(2, 13, 0),
+      importVersion(2, 14, 0),
+      importVersion(2, 15, 0),
+      importVersion(2, 16, 0),
     ].slice(-onlyLastNVersions),
     importVersion(99, 99, 98),
     ...(process.env.EXTRA_VERSION ? [importVersion(99, 99, 99)] : []),
@@ -372,21 +372,23 @@ async function run() {
         benchmarks.push(null);
         continue;
       }
+      const name = `${definition.name} on fast-check@${prettyPrintVersion(
+        version
+      )}`;
       // Dry run...
       // Just to avoid that benchmark pre-optimize one path because first test only deals with small numbers
       // while others passing by the same code paths deal with mor complex structures pushing to optimization losts.
+      console.log(`Warming up: ${name}`);
       for (let idx = 0; idx !== 100; ++idx) {
         definition.run(fc);
       }
       // Create benchmark
-      const b = new Benchmark(
-        `${definition.name} on fast-check@${prettyPrintVersion(version)}`,
-        () => definition.run(fc)
-      );
+      const b = new Benchmark(name, () => definition.run(fc));
       benchmarks.push(b);
       allBenchmarks.push(b);
     }
   }
+  console.log("");
 
   // Run benchmarks
   Benchmark.invoke(allBenchmarks, {
