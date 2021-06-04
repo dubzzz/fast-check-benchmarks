@@ -118,10 +118,10 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.array(fc.integer(), 0, 100_000))",
+    name: "Property(fc.array(fc.integer(), 0, 10_000))",
     run: (fc) => {
       fc.assert(
-        fc.property(fc.array(fc.integer(), 0, 100000), (_unused) => true)
+        fc.property(fc.array(fc.integer(), 0, 10000), (_unused) => true)
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
@@ -134,10 +134,10 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
-    name: "Property(fc.set(fc.integer(), 0, 100_000))",
+    name: "Property(fc.set(fc.integer(), 0, 10_000))",
     run: (fc) => {
       fc.assert(
-        fc.property(fc.set(fc.integer(), 0, 100000), (_unused) => true)
+        fc.property(fc.set(fc.integer(), 0, 10000), (_unused) => true)
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
