@@ -5,6 +5,10 @@ on:
       extraVersion:
         description: "Extra version"
         required: false
+      onlyLastNVersions:
+        description: "Only run against the last N versions"
+        default: "1"
+        required: true
 jobs:
   benchmark:
     name: "Benchmark"
@@ -34,4 +38,5 @@ jobs:
       - name: Run benchmark
         run: |
           export EXTRA_VERSION="${{github.event.inputs.extraVersion}}"
+          export LAST_N_VERSIONS="${{github.event.inputs.onlyLastNVersions}}"
           npm run test

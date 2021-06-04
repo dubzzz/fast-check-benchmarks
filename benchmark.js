@@ -318,7 +318,12 @@ const performanceTests = [
 ];
 
 async function run() {
+  const onlyLastNVersionsEnv = Number(process.env.LAST_N_VERSIONS || "1");
+  const onlyLastNVersions = Number.isNaN(onlyLastNVersionsEnv)
+    ? Number.POSITIVE_INFINITY
+    : onlyLastNVersionsEnv;
   const fastCheckVersions = await Promise.all([
+    ...[
     importVersion(2, 0, 0),
     importVersion(2, 1, 0),
     importVersion(2, 2, 0),
@@ -336,6 +341,7 @@ async function run() {
     importVersion(2, 14, 0),
     importVersion(2, 15, 0),
     importVersion(2, 16, 0),
+    ].slice(-onlyLastNVersions),
     importVersion(99, 99, 98),
     ...(process.env.EXTRA_VERSION ? [importVersion(99, 99, 99)] : []),
   ]);
