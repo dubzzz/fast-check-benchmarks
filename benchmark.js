@@ -118,9 +118,27 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
+    name: "Property(fc.array(fc.integer(), 0, 100_000))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.array(fc.integer(), 0, 100000), (_unused) => true)
+      );
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
     name: "Property(fc.set(fc.integer()))",
     run: (fc) => {
       fc.assert(fc.property(fc.set(fc.integer()), (_unused) => true));
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 11 },
+  },
+  {
+    name: "Property(fc.set(fc.integer(), 0, 100_000))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.set(fc.integer(), 0, 100000), (_unused) => true)
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
@@ -199,6 +217,55 @@ const performanceTests = [
         leaf: fc.nat(),
       }));
       fc.assert(fc.property(node, (_unused) => true));
+    },
+    minimalRequirements: { major: 1, minor: 16, patch: 0 },
+  },
+  {
+    name: "Property(<comment-generator-letrec>)",
+    run: (fc) => {
+      const opt = (arb) => fc.option(arb).map((v) => (v !== null ? v : ""));
+      const SourceCharacter = fc.oneof(fc.ascii(), fc.unicode()); // any unicode
+      // https://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-lexical-grammar
+      const { Comment } = fc.letrec((tie) => ({
+        Comment: fc.oneof(tie("MultiLineComment"), tie("SingleLineComment")),
+        MultiLineComment: opt(tie("MultiLineCommentChars")).map(
+          (c) => `/*${c}*/`
+        ),
+        MultiLineCommentChars: fc.oneof(
+          fc
+            .tuple(
+              SourceCharacter.filter((c) => c !== "*"),
+              opt(tie("MultiLineCommentChars"))
+            )
+            .map(([c, o]) => c + o),
+          opt(tie("PostAsteriskCommentChars")).map((o) => "*" + o)
+        ),
+        PostAsteriskCommentChars: fc.oneof(
+          fc
+            .tuple(
+              SourceCharacter.filter((c) => c !== "*" && c !== "/"),
+              opt(tie("MultiLineCommentChars"))
+            )
+            .map(([c, o]) => c + o),
+          opt(tie("PostAsteriskCommentChars")).map((o) => "*" + o)
+        ),
+        SingleLineComment: opt(tie("SingleLineCommentChars")).map(
+          (c) => `//${c}`
+        ),
+        SingleLineCommentChars: fc
+          .tuple(
+            SourceCharacter.filter(
+              (c) =>
+                c !== "\u000D" &&
+                c !== "\u000A" &&
+                c !== "\u2028" &&
+                c !== "\u2029" /*<LF>,<CR>,<LS>,<PS>*/
+            ),
+            opt(tie("SingleLineCommentChars"))
+          )
+          .map(([c, o]) => c + o),
+      }));
+      fc.assert(fc.property(Comment, (_unused) => true));
     },
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
