@@ -272,6 +272,7 @@ async function run() {
     importVersion(2, 13, 0),
     importVersion(2, 14, 0),
     importVersion(2, 15, 0),
+    importVersion(2, 16, 0),
     importVersion(99, 99, 98),
     ...(process.env.EXTRA_VERSION ? [importVersion(99, 99, 99)] : []),
   ]);

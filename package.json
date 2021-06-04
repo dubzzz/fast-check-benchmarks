@@ -31,6 +31,7 @@
     "fc-2.13.0": "npm:fast-check@2.13.0",
     "fc-2.14.0": "npm:fast-check@2.14.0",
     "fc-2.15.0": "npm:fast-check@2.15.0",
+    "fc-2.16.0": "npm:fast-check@2.16.0",
     "fc-2.2.0": "npm:fast-check@2.2.0",
     "fc-2.3.0": "npm:fast-check@2.3.0",
     "fc-2.4.0": "npm:fast-check@2.4.0",
