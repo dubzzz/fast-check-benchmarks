@@ -46,116 +46,166 @@ function prettyPrintVersion(version) {
   return `${version.major}.${version.minor}.${version.patch}`;
 }
 
+const numRunsEnv = Number(process.env.NUM_RUNS || "100");
+const numRuns = Number.isNaN(numRunsEnv) ? undefined : numRunsEnv;
 const performanceTests = [
   {
     name: "Property(fc.boolean())",
     run: (fc) => {
-      fc.assert(fc.property(fc.boolean(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.boolean(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 6 },
   },
   {
     name: "Property(fc.integer())",
     run: (fc) => {
-      fc.assert(fc.property(fc.integer(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.integer(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
     name: "Property(fc.maxSafeInteger())",
     run: (fc) => {
-      fc.assert(fc.property(fc.maxSafeInteger(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.maxSafeInteger(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 1, minor: 11, patch: 0 },
   },
   {
     name: "Property(fc.float())",
     run: (fc) => {
-      fc.assert(fc.property(fc.float(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.float(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 6 },
   },
   {
     name: "Property(fc.float({next}))",
     run: (fc) => {
-      fc.assert(fc.property(fc.float({ next: true }), (_unused) => true));
+      fc.assert(
+        fc.property(fc.float({ next: true }), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 2, minor: 6, patch: 0 },
   },
   {
     name: "Property(fc.double())",
     run: (fc) => {
-      fc.assert(fc.property(fc.float(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.float(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 6 },
   },
   {
     name: "Property(fc.double({next}))",
     run: (fc) => {
-      fc.assert(fc.property(fc.double({ next: true }), (_unused) => true));
+      fc.assert(
+        fc.property(fc.double({ next: true }), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 2, minor: 6, patch: 0 },
   },
   {
     name: "Property(fc.char())",
     run: (fc) => {
-      fc.assert(fc.property(fc.char(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.char(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
     name: "Property(fc.string())",
     run: (fc) => {
-      fc.assert(fc.property(fc.string(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.string(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
     name: "Property(fc.array(fc.integer()))",
     run: (fc) => {
-      fc.assert(fc.property(fc.array(fc.integer()), (_unused) => true));
+      fc.assert(
+        fc.property(fc.array(fc.integer()), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
     name: "Property(fc.array(fc.integer(), 0, 500))",
     run: (fc) => {
-      fc.assert(fc.property(fc.array(fc.integer(), 0, 500), (_unused) => true));
+      fc.assert(
+        fc.property(fc.array(fc.integer(), 0, 500), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
     name: "Property(fc.set(fc.integer()))",
     run: (fc) => {
-      fc.assert(fc.property(fc.set(fc.integer()), (_unused) => true));
+      fc.assert(
+        fc.property(fc.set(fc.integer()), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
     name: "Property(fc.set(fc.integer(), 0, 500))",
     run: (fc) => {
-      fc.assert(fc.property(fc.set(fc.integer(), 0, 500), (_unused) => true));
+      fc.assert(
+        fc.property(fc.set(fc.integer(), 0, 500), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
     name: "Property(fc.constant('a'))",
     run: (fc) => {
-      fc.assert(fc.property(fc.constant("a"), (_unused) => true));
+      fc.assert(
+        fc.property(fc.constant("a"), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
     name: "Property(fc.constantFrom('a', 'b', 'c'))",
     run: (fc) => {
-      fc.assert(fc.property(fc.constantFrom("a", "b", "c"), (_unused) => true));
+      fc.assert(
+        fc.property(fc.constantFrom("a", "b", "c"), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 12 },
   },
   {
     name: "Property(fc.option(fc.integer()))",
     run: (fc) => {
-      fc.assert(fc.property(fc.option(fc.integer()), (_unused) => true));
+      fc.assert(
+        fc.property(fc.option(fc.integer()), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 6 },
   },
@@ -163,7 +213,8 @@ const performanceTests = [
     name: "Property(fc.oneof(fc.ascii(), fc.hexa()))",
     run: (fc) => {
       fc.assert(
-        fc.property(fc.oneof(fc.ascii(), fc.hexa()), (_unused) => true)
+        fc.property(fc.oneof(fc.ascii(), fc.hexa()), (_unused) => true),
+        { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
@@ -178,7 +229,8 @@ const performanceTests = [
             { arbitrary: fc.hexa(), weight: 2 }
           ),
           (_unused) => true
-        )
+        ),
+        { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 7 },
@@ -187,7 +239,8 @@ const performanceTests = [
     name: "Property(fc.tuple(fc.ascii(), fc.hexa()))",
     run: (fc) => {
       fc.assert(
-        fc.property(fc.tuple(fc.ascii(), fc.hexa()), (_unused) => true)
+        fc.property(fc.tuple(fc.ascii(), fc.hexa()), (_unused) => true),
+        { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
@@ -199,7 +252,8 @@ const performanceTests = [
         fc.property(
           fc.record({ ascii: fc.ascii(), hexa: fc.hexa() }),
           (_unused) => true
-        )
+        ),
+        { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 12 },
@@ -212,7 +266,10 @@ const performanceTests = [
         node: fc.tuple(tie("tree"), tie("tree")),
         leaf: fc.nat(),
       }));
-      fc.assert(fc.property(node, (_unused) => true));
+      fc.assert(
+        fc.property(node, (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
@@ -261,7 +318,10 @@ const performanceTests = [
           )
           .map(([c, o]) => c + o),
       }));
-      fc.assert(fc.property(Comment, (_unused) => true));
+      fc.assert(
+        fc.property(Comment, (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
@@ -272,7 +332,8 @@ const performanceTests = [
         fc.property(
           fc.integer().filter(() => true),
           (_unused) => true
-        )
+        ),
+        { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
@@ -284,7 +345,8 @@ const performanceTests = [
         fc.property(
           fc.integer().map((n) => n),
           (_unused) => true
-        )
+        ),
+        { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
@@ -296,7 +358,8 @@ const performanceTests = [
         fc.property(
           fc.integer().chain(() => fc.integer()),
           (_unused) => true
-        )
+        ),
+        { numRuns }
       );
     },
     minimalRequirements: { major: 1, minor: 2, patch: 0 },
@@ -304,14 +367,20 @@ const performanceTests = [
   {
     name: "Property(fc.integer().noBias())",
     run: (fc) => {
-      fc.assert(fc.property(fc.integer().noBias(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.integer().noBias(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 1, minor: 1, patch: 0 },
   },
   {
     name: "Property(fc.integer().noShrink())",
     run: (fc) => {
-      fc.assert(fc.property(fc.integer().noShrink(), (_unused) => true));
+      fc.assert(
+        fc.property(fc.integer().noShrink(), (_unused) => true),
+        { numRuns }
+      );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 9 },
   },

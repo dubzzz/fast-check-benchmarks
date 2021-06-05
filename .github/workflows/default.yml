@@ -9,6 +9,10 @@ on:
         description: "Only run against the last N versions"
         default: "1"
         required: true
+      numRuns:
+        description: "Number of runs"
+        default: "100"
+        required: true
 jobs:
   benchmark:
     name: "Benchmark"
@@ -39,4 +43,5 @@ jobs:
         run: |
           export EXTRA_VERSION="${{github.event.inputs.extraVersion}}"
           export LAST_N_VERSIONS="${{github.event.inputs.onlyLastNVersions}}"
+          export NUM_RUNS="${{github.event.inputs.numRuns}}"
           npm run test
