@@ -160,6 +160,16 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
+    name: "Property(fc.array(fc.integer(), 0, 25_000))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.array(fc.integer(), 0, 25_000), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
     name: "Property(fc.set(fc.integer()))",
     run: (fc) => {
       fc.assert(
