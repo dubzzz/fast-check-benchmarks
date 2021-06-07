@@ -120,6 +120,16 @@ const performanceTests = [
     minimalRequirements: { major: 2, minor: 6, patch: 0 },
   },
   {
+    name: "Property(fc.bigInt())",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.bigInt(), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 1, minor: 9, patch: 0 },
+  },
+  {
     name: "Property(fc.char())",
     run: (fc) => {
       fc.assert(
