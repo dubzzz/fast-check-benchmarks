@@ -366,6 +366,26 @@ const performanceTests = [
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
   {
+    name: "Property(fc.emailAddress())",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.emailAddress(), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "Property(fc.webUrl())",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.webUrl(), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
     name: "Property(fc.integer().filter(() => true))",
     run: (fc) => {
       fc.assert(
