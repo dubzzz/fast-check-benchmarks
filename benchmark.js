@@ -150,6 +150,26 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
+    name: "Property(fc.string(0, 500))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.string(0, 500), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
+    name: "Property(fc.string(0, 25_000))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.string(0, 25_000), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
     name: "Property(fc.array(fc.integer()))",
     run: (fc) => {
       fc.assert(
