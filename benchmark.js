@@ -576,5 +576,49 @@ async function run() {
       ].join(";")
     );
   }
+
+  // Create basic compare CSV
+  console.log("\n\n--- gain-to-main CSV ---\n\n");
+  console.log(
+    [
+      "Algorithm",
+      ...fastCheckVersions.map(([_, version]) => prettyPrintVersion(version)),
+    ].join(";")
+  );
+  for (const [definition, benchmarks] of performanceTestsIncBenchmarks) {
+    const refBenchmark = benchmarks.find((b) =>
+      b.name.includes("fast-check@main")
+    );
+    console.log(
+      [
+        definition.name,
+        ...benchmarks.map((b) => {
+          if (refBenchmark == null || b === null) {
+            return "???";
+          }
+          const refHz = refBenchmark.hz;
+          const refStatsRem = refBenchmark.stats.rme;
+          const refHzMin = (refHz * (100 - refStatsRem)) / 100;
+          const refHzMax = (refHz * (100 + refStatsRem)) / 100;
+          const currentHz = b.hz;
+          const currentStatsRem = b.stats.rme;
+          const currentHzMin = (currentHz * (100 - currentStatsRem)) / 100;
+          const currentHzMax = (currentHz * (100 + currentStatsRem)) / 100;
+          if (refHzMax <= currentHzMin) {
+            const r = currentHzMin / refHzMax;
+            if (r >= 1.5) return "+++";
+            if (r >= 1.1) return "++";
+            return "+";
+          } else if (currentHzMax <= refHzMin) {
+            const r = refHzMin / currentHzMax;
+            if (r >= 1.5) return "---";
+            if (r >= 1.1) return "--";
+            return "-";
+          }
+          return "=";
+        }),
+      ].join(";")
+    );
+  }
 }
 run().catch((err) => console.error(err));
