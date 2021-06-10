@@ -46,6 +46,24 @@ function prettyPrintVersion(version) {
   return `${version.major}.${version.minor}.${version.patch}`;
 }
 
+/**
+ * Print benchmark results and confidence range
+ * @param {*} event
+ */
+function onCycle(event) {
+  const target = event.target;
+  const hz = target.hz; // num runs per second
+  const rme = target.stats.rme; // +/-x%
+  console.log(
+    String(target) +
+      " ⇝ from " +
+      ((hz * (100 - rme)) / 100).toFixed(2) +
+      " to " +
+      ((hz * (100 + rme)) / 100).toFixed(2) +
+      " ops/sec"
+  );
+}
+
 const numRunsEnv = Number(process.env.NUM_RUNS || "100");
 const numRuns = Number.isNaN(numRunsEnv) ? undefined : numRunsEnv;
 const performanceTests = [
@@ -508,11 +526,13 @@ async function run() {
       // Just to avoid that benchmark pre-optimize one path because first test only deals with small numbers
       // while others passing by the same code paths deal with mor complex structures pushing to optimization losts.
       console.log(`Warming up: ${name}`);
-      for (let idx = 0; idx !== 100; ++idx) {
+      for (let idx = 0; idx !== 25; ++idx) {
         definition.run(fc);
       }
       // Create benchmark
-      const b = new Benchmark(name, () => definition.run(fc));
+      const b = new Benchmark(name, () => definition.run(fc), {
+        minSamples: 100,
+      });
       benchmarks.push(b);
       allBenchmarks.push(b);
     }
@@ -520,11 +540,7 @@ async function run() {
   console.log("");
 
   // Run benchmarks
-  Benchmark.invoke(allBenchmarks, {
-    name: "run",
-    queued: true,
-    onCycle: (event) => console.log(String(event.target)),
-  });
+  Benchmark.invoke(allBenchmarks, { name: "run", queued: true, onCycle });
 
   // Create basic hz CSV
   console.log("\n\n--- hz CSV ---\n\n");
