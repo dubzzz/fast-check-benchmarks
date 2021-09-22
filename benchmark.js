@@ -238,6 +238,16 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
+    name: "Property(fc.anything())",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.anything(), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 7 },
+  },
+  {
     name: "Property(fc.constant('a'))",
     run: (fc) => {
       fc.assert(
