@@ -121,7 +121,7 @@ const performanceTests = [
     name: "Property(fc.double())",
     run: (fc) => {
       fc.assert(
-        fc.property(fc.float(), (_unused) => true),
+        fc.property(fc.double(), (_unused) => true),
         { numRuns }
       );
     },
