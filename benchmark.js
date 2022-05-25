@@ -158,12 +158,12 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.string(0, 500))",
+    name: "Property(fc.string({ minLength: 0, maxLength: 500, size: 'max' }))",
     run: (fc, version) => {
       fc.assert(
         fc.property(
           isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.string({ minLength: 0, maxLength: 500 })
+            ? fc.string({ minLength: 0, maxLength: 500, size: "max" })
             : fc.string(0, 500),
           (_unused) => true
         ),
@@ -173,12 +173,12 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.string(0, 25_000))",
+    name: "Property(fc.string({ minLength: 0, maxLength: 25_000, size: 'max' }))",
     run: (fc, version) => {
       fc.assert(
         fc.property(
           isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.string({ minLength: 0, maxLength: 25_000 })
+            ? fc.string({ minLength: 0, maxLength: 25_000, size: "max" })
             : fc.string(0, 25_000),
           (_unused) => true
         ),
@@ -198,12 +198,16 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 500 }))",
+    name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 500, size: 'max' }))",
     run: (fc, version) => {
       fc.assert(
         fc.property(
           isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.array(fc.integer(), { minLength: 0, maxLength: 500 })
+            ? fc.array(fc.integer(), {
+                minLength: 0,
+                maxLength: 500,
+                size: "max",
+              })
             : fc.array(fc.integer(), 0, 500),
           (_unused) => true
         ),
@@ -213,12 +217,16 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 25_000 }))",
+    name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 25_000, size: 'max' }))",
     run: (fc, version) => {
       fc.assert(
         fc.property(
           isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.array(fc.integer(), { minLength: 0, maxLength: 25_000 })
+            ? fc.array(fc.integer(), {
+                minLength: 0,
+                maxLength: 25_000,
+                size: "max",
+              })
             : fc.array(fc.integer(), 0, 25_000),
           (_unused) => true
         ),
@@ -243,14 +251,22 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
-    name: "Property(fc.uniqueArray(fc.integer(), { minLength: 0, maxLength: 500 }))",
+    name: "Property(fc.uniqueArray(fc.integer(), { minLength: 0, maxLength: 500, size:'max' }))",
     run: (fc, version) => {
       fc.assert(
         fc.property(
           isCompatible(version, { major: 2, minor: 23, patch: 0 })
-            ? fc.uniqueArray(fc.integer(), { minLength: 0, maxLength: 500 })
+            ? fc.uniqueArray(fc.integer(), {
+                minLength: 0,
+                maxLength: 500,
+                size: "max",
+              })
             : isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.set(fc.integer(), { minLength: 0, maxLength: 500 })
+            ? fc.set(fc.integer(), {
+                minLength: 0,
+                maxLength: 500,
+                size: "max",
+              })
             : fc.set(fc.integer(), 0, 500),
           (_unused) => true
         ),
