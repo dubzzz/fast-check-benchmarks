@@ -198,7 +198,7 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property( fc.array(fc.integer(), { minLength: 0, maxLength: 500 }))",
+    name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 500 }))",
     run: (fc, version) => {
       fc.assert(
         fc.property(
