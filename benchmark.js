@@ -99,19 +99,14 @@ const performanceTests = [
   },
   {
     name: "Property(fc.float())",
-    run: (fc) => {
+    run: (fc, version) => {
       fc.assert(
-        fc.property(fc.float(), (_unused) => true),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 0, minor: 0, patch: 6 },
-  },
-  {
-    name: "Property(fc.float({next}))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.float({ next: true }), (_unused) => true),
+        fc.property(
+          isCompatible(version, { major: 3, minor: 0, patch: 0 })
+            ? fc.float()
+            : fc.float({ next: true }),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
@@ -119,19 +114,14 @@ const performanceTests = [
   },
   {
     name: "Property(fc.double())",
-    run: (fc) => {
+    run: (fc, version) => {
       fc.assert(
-        fc.property(fc.double(), (_unused) => true),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 0, minor: 0, patch: 6 },
-  },
-  {
-    name: "Property(fc.double({next}))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.double({ next: true }), (_unused) => true),
+        fc.property(
+          isCompatible(version, { major: 3, minor: 0, patch: 0 })
+            ? fc.double()
+            : fc.double({ next: true }),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
@@ -169,9 +159,14 @@ const performanceTests = [
   },
   {
     name: "Property(fc.string(0, 500))",
-    run: (fc) => {
+    run: (fc, version) => {
       fc.assert(
-        fc.property(fc.string(0, 500), (_unused) => true),
+        fc.property(
+          isCompatible(version, { major: 2, minor: 4, patch: 0 })
+            ? fc.string({ minLength: 0, maxLength: 500 })
+            : fc.string(0, 500),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
@@ -179,9 +174,14 @@ const performanceTests = [
   },
   {
     name: "Property(fc.string(0, 25_000))",
-    run: (fc) => {
+    run: (fc, version) => {
       fc.assert(
-        fc.property(fc.string(0, 25_000), (_unused) => true),
+        fc.property(
+          isCompatible(version, { major: 2, minor: 4, patch: 0 })
+            ? fc.string({ minLength: 0, maxLength: 25_000 })
+            : fc.string(0, 25_000),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
@@ -198,40 +198,62 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.array(fc.integer(), 0, 500))",
-    run: (fc) => {
+    name: "Property( fc.array(fc.integer(), { minLength: 0, maxLength: 500 }))",
+    run: (fc, version) => {
       fc.assert(
-        fc.property(fc.array(fc.integer(), 0, 500), (_unused) => true),
+        fc.property(
+          isCompatible(version, { major: 2, minor: 4, patch: 0 })
+            ? fc.array(fc.integer(), { minLength: 0, maxLength: 500 })
+            : fc.array(fc.integer(), 0, 500),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.array(fc.integer(), 0, 25_000))",
-    run: (fc) => {
+    name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 25_000 }))",
+    run: (fc, version) => {
       fc.assert(
-        fc.property(fc.array(fc.integer(), 0, 25_000), (_unused) => true),
+        fc.property(
+          isCompatible(version, { major: 2, minor: 4, patch: 0 })
+            ? fc.array(fc.integer(), { minLength: 0, maxLength: 25_000 })
+            : fc.array(fc.integer(), 0, 25_000),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.set(fc.integer()))",
-    run: (fc) => {
+    name: "Property(fc.uniqueArray(fc.integer()))",
+    run: (fc, version) => {
       fc.assert(
-        fc.property(fc.set(fc.integer()), (_unused) => true),
+        fc.property(
+          isCompatible(version, { major: 2, minor: 23, patch: 0 })
+            ? fc.uniqueArray(fc.integer())
+            : fc.set(fc.integer()),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
-    name: "Property(fc.set(fc.integer(), 0, 500))",
-    run: (fc) => {
+    name: "Property(fc.uniqueArray(fc.integer(), { minLength: 0, maxLength: 500 }))",
+    run: (fc, version) => {
       fc.assert(
-        fc.property(fc.set(fc.integer(), 0, 500), (_unused) => true),
+        fc.property(
+          isCompatible(version, { major: 2, minor: 23, patch: 0 })
+            ? fc.uniqueArray(fc.integer(), { minLength: 0, maxLength: 500 })
+            : isCompatible(version, { major: 2, minor: 4, patch: 0 })
+            ? fc.set(fc.integer(), { minLength: 0, maxLength: 500 })
+            : fc.set(fc.integer(), 0, 500),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
@@ -288,14 +310,19 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.frequency(fc.ascii()@w=1, fc.hexa()@w=2))",
-    run: (fc) => {
+    name: "Property(fc.oneof(fc.ascii()@w=1, fc.hexa()@w=2))",
+    run: (fc, version) => {
       fc.assert(
         fc.property(
-          fc.frequency(
-            { arbitrary: fc.ascii(), weight: 1 },
-            { arbitrary: fc.hexa(), weight: 2 }
-          ),
+          isCompatible(version, { major: 3, minor: 0, patch: 0 })
+            ? fc.oneof(
+                { arbitrary: fc.ascii(), weight: 1 },
+                { arbitrary: fc.hexa(), weight: 2 }
+              )
+            : fc.frequency(
+                { arbitrary: fc.ascii(), weight: 1 },
+                { arbitrary: fc.hexa(), weight: 2 }
+              ),
           (_unused) => true
         ),
         { numRuns }
@@ -542,10 +569,10 @@ async function run() {
       // while others passing by the same code paths deal with mor complex structures pushing to optimization losts.
       console.log(`Warming up: ${name}`);
       for (let idx = 0; idx !== 25; ++idx) {
-        definition.run(fc);
+        definition.run(fc, version);
       }
       // Create benchmark
-      const b = new Benchmark(name, () => definition.run(fc), {
+      const b = new Benchmark(name, () => definition.run(fc, version), {
         minSamples: 100,
       });
       benchmarks.push(b);
