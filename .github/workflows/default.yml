@@ -30,7 +30,7 @@ jobs:
           git clone --depth 1 https://github.com/dubzzz/fast-check.git
           cd fast-check
           yarn
-          yarn build-ci:all
+          yarn build:all
           yarn pack:all
           mv packages/fast-check/package.tgz fast-check.tgz
           cd ..
