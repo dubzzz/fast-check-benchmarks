@@ -30,9 +30,9 @@ jobs:
           git clone --depth 1 https://github.com/dubzzz/fast-check.git
           cd fast-check
           yarn
-          yarn build:prod-ci
-          yarn pack
-          mv fast-check-*.tgz fast-check.tgz
+          yarn build-ci:all
+          yarn pack:all
+          mv packages/fast-check/package.tgz fast-check.tgz
           cd ..
           npm install fc-99.99.98@./fast-check/fast-check.tgz
           npm install fc-99.99.99@./fast-check/fast-check.tgz
