@@ -550,6 +550,8 @@ async function run() {
       importVersion(2, 23, 0),
       importVersion(2, 24, 0),
       importVersion(2, 25, 0),
+      importVersion(3, 0, 0),
+      importVersion(3, 1, 0),
     ].slice(-onlyLastNVersions),
     importVersion(99, 99, 98),
     ...(process.env.EXTRA_VERSION ? [importVersion(99, 99, 99)] : []),
