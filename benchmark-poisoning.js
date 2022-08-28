@@ -87,6 +87,12 @@ const allBenchmarks = [
       verySafePushBis(instance, [i]);
     }
   }),
+  new Benchmark("'very safe' direct push (ter)", () => {
+    const instance = [];
+    for (let i = 0; i !== NumEntries; ++i) {
+      verySafePushTer(instance, [i]);
+    }
+  }),
   new Benchmark("'safe' direct push", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
@@ -128,6 +134,14 @@ function safeExtract(instance, name) {
   }
 }
 
+function safeExtractPush(instance) {
+  try {
+    return instance.push;
+  } catch (err) {
+    return undefined;
+  }
+}
+
 // Not as safe as the other one as it may be tricked by users
 // overriding the apply function in a nasty way making it throw halp of the time
 function verySafeApplyBis(f, instance, args) {
@@ -153,6 +167,13 @@ function verySafePush(instance, args) {
 
 function verySafePushBis(instance, ...args) {
   if (safeExtract(instance, "push") === untouchedPush) {
+    return instance.push(...args);
+  }
+  return verySafeApplyBis(untouchedPush, instance, args);
+}
+
+function verySafePushTer(instance, ...args) {
+  if (safeExtractPush(instance) === untouchedPush) {
     return instance.push(...args);
   }
   return verySafeApplyBis(untouchedPush, instance, args);
