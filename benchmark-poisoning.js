@@ -66,7 +66,7 @@ const allBenchmarks = [
   new Benchmark("'very safe' apply push (bis)", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
-      verySafeApply2(untouchedPush, instance, [i]);
+      verySafeApplyBis(untouchedPush, instance, [i]);
     }
   }),
   new Benchmark("'safe' apply push", () => {
@@ -81,10 +81,22 @@ const allBenchmarks = [
       verySafePush(instance, [i]);
     }
   }),
+  new Benchmark("'very safe' direct push (bis)", () => {
+    const instance = [];
+    for (let i = 0; i !== NumEntries; ++i) {
+      verySafePushBis(instance, [i]);
+    }
+  }),
   new Benchmark("'safe' direct push", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
       safePush(instance, [i]);
+    }
+  }),
+  new Benchmark("'safe' direct push (bis)", () => {
+    const instance = [];
+    for (let i = 0; i !== NumEntries; ++i) {
+      safePushBis(instance, i);
     }
   }),
 ];
@@ -116,7 +128,9 @@ function safeExtract(instance, name) {
   }
 }
 
-function verySafeApply2(f, instance, args) {
+// Not as safe as the other one as it may be tricked by users
+// overriding the apply function in a nasty way making it throw halp of the time
+function verySafeApplyBis(f, instance, args) {
   if (safeExtract(f, "apply") === untouchedApply) {
     return f.apply(instance, args);
   }
@@ -134,10 +148,24 @@ function verySafePush(instance, args) {
   if (safeExtract(instance, "push") === untouchedPush) {
     return instance.push(...args);
   }
-  return safeApply(untouchedPush, instance, args);
+  return verySafeApplyBis(untouchedPush, instance, args);
+}
+
+function verySafePushBis(instance, ...args) {
+  if (safeExtract(instance, "push") === untouchedPush) {
+    return instance.push(...args);
+  }
+  return verySafeApplyBis(untouchedPush, instance, args);
 }
 
 function safePush(instance, args) {
+  if (instance.push === untouchedPush) {
+    return instance.push(...args);
+  }
+  return safeApply(untouchedPush, instance, args);
+}
+
+function safePushBis(instance, ...args) {
   if (instance.push === untouchedPush) {
     return instance.push(...args);
   }
