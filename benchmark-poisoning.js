@@ -100,6 +100,12 @@ const allBenchmarks = [
       verySafeApplyBis(untouchedPush, instance, [i]);
     }
   }),
+  new Benchmark("'very safe' apply push (try/catch apply)", () => {
+    const instance = [];
+    for (let i = 0; i !== NumEntries; ++i) {
+      verySafeApplyBis2(untouchedPush, instance, [i]);
+    }
+  }),
   new Benchmark("'safe' apply push", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
@@ -194,6 +200,14 @@ function safeExtract(instance, name) {
   }
 }
 
+function safeExtractApply(instance) {
+  try {
+    return instance.apply;
+  } catch (err) {
+    return undefined;
+  }
+}
+
 function safeExtractPush(instance) {
   try {
     return instance.push;
@@ -206,6 +220,13 @@ function safeExtractPush(instance) {
 // overriding the apply function in a nasty way making it throw halp of the time
 function verySafeApplyBis(f, instance, args) {
   if (safeExtract(f, "apply") === untouchedApply) {
+    return f.apply(instance, args);
+  }
+  return safeApplyHacky(f, instance, args);
+}
+
+function verySafeApplyBis2(f, instance, args) {
+  if (safeExtractApply(f) === untouchedApply) {
     return f.apply(instance, args);
   }
   return safeApplyHacky(f, instance, args);
