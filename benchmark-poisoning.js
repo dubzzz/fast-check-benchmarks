@@ -76,25 +76,25 @@ const allBenchmarks = [
       untouchedPush.apply(instance, [i]);
     }
   }),
-  new Benchmark("'very safe' apply push (bug)", () => {
+  new Benchmark("'very safe' apply push (getown) (((bug)))", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
       verySafeApplyBug(untouchedPush, instance, [i]);
     }
   }),
-  new Benchmark("'very safe' apply push", () => {
+  new Benchmark("'very safe' apply push (getown)", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
       verySafeApply(untouchedPush, instance, [i]);
     }
   }),
-  new Benchmark("'very safe' apply push (retry)", () => {
+  new Benchmark("'very safe' apply push (getown/hasown)", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
       verySafeApplyRetry(untouchedPush, instance, [i]);
     }
   }),
-  new Benchmark("'very safe' apply push (bis)", () => {
+  new Benchmark("'very safe' apply push (try/catch)", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
       verySafeApplyBis(untouchedPush, instance, [i]);
@@ -106,22 +106,22 @@ const allBenchmarks = [
       safeApply(untouchedPush, instance, [i]);
     }
   }),
-  new Benchmark("'very safe' direct push", () => {
+  new Benchmark("'very safe' direct push (try/catch)", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
       verySafePush(instance, [i]);
     }
   }),
-  new Benchmark("'very safe' direct push (bis)", () => {
+  new Benchmark("'very safe' direct push (try/catch)(varargs)", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
-      verySafePushBis(instance, [i]);
+      verySafePush2(instance, i);
     }
   }),
-  new Benchmark("'very safe' direct push (ter)", () => {
+  new Benchmark("'very safe' direct push (try/catch push)(varargs)", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
-      verySafePushTer(instance, [i]);
+      verySafePush3(instance, i);
     }
   }),
   new Benchmark("'safe' direct push", () => {
@@ -130,10 +130,10 @@ const allBenchmarks = [
       safePush(instance, [i]);
     }
   }),
-  new Benchmark("'safe' direct push (bis)", () => {
+  new Benchmark("'safe' direct push (varargs)", () => {
     const instance = [];
     for (let i = 0; i !== NumEntries; ++i) {
-      safePushBis(instance, i);
+      safePush2(instance, i);
     }
   }),
 ];
@@ -225,7 +225,7 @@ function verySafePush(instance, args) {
   return verySafeApplyBis(untouchedPush, instance, args);
 }
 
-function verySafePushBis(instance, ...args) {
+function verySafePush2(instance, ...args) {
   if (safeExtract(instance, "push") === untouchedPush) {
     return instance.push(...args);
   }
@@ -246,7 +246,7 @@ function safePush(instance, args) {
   return safeApply(untouchedPush, instance, args);
 }
 
-function safePushBis(instance, ...args) {
+function safePush2(instance, ...args) {
   if (instance.push === untouchedPush) {
     return instance.push(...args);
   }
