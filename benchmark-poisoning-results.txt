@@ -1,0 +1,6 @@
+direct push x 168,248 ops/sec ±2.08% (81 runs sampled) ⇝ from 164,756.013 to 171,740.769 ops/sec
+direct [PushSymbol] x 162,978 ops/sec ±1.37% (88 runs sampled) ⇝ from 160,740.566 to 165,214.53 ops/sec
+direct renewed [PushSymbol] x 10,920 ops/sec ±2.78% (90 runs sampled) ⇝ from 10,616.39 to 11,224.219 ops/sec
+call push x 65,968 ops/sec ±2.03% (89 runs sampled) ⇝ from 64,629.901 to 67,305.24 ops/sec
+apply push x 65,052 ops/sec ±2.06% (87 runs sampled) ⇝ from 63,712.585 to 66,390.9 ops/sec
+'very safe' apply push (getown) (((bug))) x 8,698 ops/sec ±1.44% (93 runs sampled) ⇝ from 8,572.147 to 8,823.322 ops/sec
