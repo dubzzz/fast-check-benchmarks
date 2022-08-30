@@ -253,7 +253,7 @@ function verySafePush2(instance, ...args) {
   return verySafeApplyBis(untouchedPush, instance, args);
 }
 
-function verySafePushTer(instance, ...args) {
+function verySafePush3(instance, ...args) {
   if (safeExtractPush(instance) === untouchedPush) {
     return instance.push(...args);
   }
