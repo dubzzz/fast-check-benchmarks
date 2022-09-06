@@ -46,15 +46,8 @@ function safeApply(f, instance, args) {
 }
 function buildSafeMethod(typeConstructor, methodName) {
   const method = typeConstructor.prototype[methodName];
-  function safeExtractMethod(instance) {
-    try {
-      return instance[methodName];
-    } catch (err) {
-      return undefined;
-    }
-  }
   return function safe(instance, ...args) {
-    if (safeExtractMethod(instance) === method) {
+    if (instance[methodName] === method) {
       return instance[methodName](...args);
     }
     return safeApply(method, instance, args);
@@ -91,7 +84,46 @@ const safeToLowerCase = buildSafeMethod(String, "toLowerCase");
 const safeToUpperCase = buildSafeMethod(String, "toUpperCase");
 const safePadStart = buildSafeMethod(String, "padStart");
 
+// Fully optimized v1
+
+const untouchedForEach = Array.prototype.forEach;
+function safeExtractForEach(instance) {
+  try {
+    return instance.forEach;
+  } catch (err) {
+    return undefined;
+  }
+}
+const safeForEachV1 = function safe(instance, ...args) {
+  if (safeExtractForEach(instance) === untouchedForEach) {
+    return instance.forEach(...args);
+  }
+  return safeApply(untouchedForEach, instance, args);
+};
+
+const untouchedIndexOf = Array.prototype.indexOf;
+function safeExtractIndexOf(instance) {
+  try {
+    return instance.indexOf;
+  } catch (err) {
+    return undefined;
+  }
+}
+const safeIndexOfV1 = function safe(instance, ...args) {
+  if (safeExtractIndexOf(instance) === untouchedIndexOf) {
+    return instance.indexOf(...args);
+  }
+  return safeApply(untouchedIndexOf, instance, args);
+};
+
 // Run benchmark
+
+// ForEach, safeForEach x3
+// -> no issue, safe and unsafe versions are barely equivalent on the 3 runs
+
+// ForEach, safeForEach, IndexOf, safeIndex x3
+// -> on second run of safeForEach we observe a HUGE performance gap
+// -> fixed with "Fully optimized v1"
 
 function run() {
   const allBenchmarks = () => [
@@ -103,6 +135,10 @@ function run() {
       const instance = [1, 2, 3];
       safeForEach(instance, () => {});
     }),
+    new Benchmark("safeForEach@v1", () => {
+      const instance = [1, 2, 3];
+      safeForEachV1(instance, () => {});
+    }),
     new Benchmark("IndexOf", () => {
       const instance = [1, 2, 3];
       instance.indexOf(2);
@@ -110,6 +146,10 @@ function run() {
     new Benchmark("safeIndexOf", () => {
       const instance = [1, 2, 3];
       safeIndexOf(instance, 2);
+    }),
+    new Benchmark("safeIndexOf@v1", () => {
+      const instance = [1, 2, 3];
+      safeIndexOfV1(instance, 2);
     }),
     new Benchmark("Join", () => {
       const instance = [1, 2, 3];
