@@ -94,7 +94,7 @@ const safePadStart = buildSafeMethod(String, "padStart");
 // Run benchmark
 
 function run() {
-  const allBenchmarks = [
+  const allBenchmarks = () => [
     new Benchmark("ForEach", () => {
       const instance = [1, 2, 3];
       instance.forEach(() => {});
@@ -257,7 +257,10 @@ function run() {
     }),
   ];
 
-  Benchmark.invoke(allBenchmarks, { name: "run", queued: true, onCycle });
+  Benchmark.invoke(
+    [...allBenchmarks(), ...allBenchmarks(), ...allBenchmarks()],
+    { name: "run", queued: true, onCycle }
+  );
 }
 
 run();
