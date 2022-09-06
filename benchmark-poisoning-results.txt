@@ -1,16 +1,20 @@
-direct push x 168,248 ops/sec ±2.08% (81 runs sampled) ⇝ from 164,756.013 to 171,740.769 ops/sec
-direct [PushSymbol] x 162,978 ops/sec ±1.37% (88 runs sampled) ⇝ from 160,740.566 to 165,214.53 ops/sec
-direct renewed [PushSymbol] x 10,920 ops/sec ±2.78% (90 runs sampled) ⇝ from 10,616.39 to 11,224.219 ops/sec
-call push x 65,968 ops/sec ±2.03% (89 runs sampled) ⇝ from 64,629.901 to 67,305.24 ops/sec
-apply push x 65,052 ops/sec ±2.06% (87 runs sampled) ⇝ from 63,712.585 to 66,390.9 ops/sec
-'very safe' apply push (getown) (((bug))) x 8,698 ops/sec ±1.44% (93 runs sampled) ⇝ from 8,572.147 to 8,823.322 ops/sec
-'very safe' apply push (getown) x 15,329 ops/sec ±1.60% (91 runs sampled) ⇝ from 15,083.692 to 15,573.392 ops/sec
-'very safe' apply push (getown/hasown) x 20,393 ops/sec ±1.97% (91 runs sampled) ⇝ from 19,991.508 to 20,794.691 ops/sec
-'very safe' apply push (try/catch) x 60,155 ops/sec ±1.05% (94 runs sampled) ⇝ from 59,525.029 to 60,784.606 ops/sec
-'very safe' apply push (try/catch apply) x 60,494 ops/sec ±0.93% (95 runs sampled) ⇝ from 59,929.287 to 61,058.436 ops/sec
-'safe' apply push x 69,901 ops/sec ±1.20% (94 runs sampled) ⇝ from 69,062.497 to 70,740.305 ops/sec
-'very safe' direct push (try/catch) x 37,386 ops/sec ±0.88% (90 runs sampled) ⇝ from 37,057.474 to 37,714.996 ops/sec
-'very safe' direct push (try/catch)(varargs) x 47,841 ops/sec ±1.32% (92 runs sampled) ⇝ from 47,209.963 to 48,472.544 ops/sec
-'very safe' direct push (try/catch push)(varargs) x 164,498 ops/sec ±0.98% (94 runs sampled) ⇝ from 162,889.145 to 166,107.192 ops/sec
-'safe' direct push x 83,577 ops/sec ±1.45% (87 runs sampled) ⇝ from 82,362.32 to 84,792.429 ops/sec
-'safe' direct push (varargs) x 170,579 ops/sec ±0.87% (94 runs sampled) ⇝ from 169,091.359 to 172,066.492 ops/sec
+direct push x 200,433 ops/sec ±0.99% (86 runs sampled) ⇝ from 198,456.168 to 202,409.792 ops/sec
+direct [PushSymbol] x 206,224 ops/sec ±1.97% (92 runs sampled) ⇝ from 202,164.373 to 210,283.435 ops/sec
+direct renewed [PushSymbol] x 17,413 ops/sec ±1.74% (94 runs sampled) ⇝ from 17,109.947 to 17,715.88 ops/sec
+call push x 80,488 ops/sec ±1.64% (87 runs sampled) ⇝ from 79,168.774 to 81,806.529 ops/sec
+apply push x 78,494 ops/sec ±0.31% (96 runs sampled) ⇝ from 78,254.599 to 78,734.115 ops/sec
+'very safe' apply push (getown) (((bug))) x 10,901 ops/sec ±1.61% (93 runs sampled) ⇝ from 10,725.021 to 11,076.009 ops/sec
+'very safe' apply push (getown) x 16,057 ops/sec ±0.89% (89 runs sampled) ⇝ from 15,913.664 to 16,199.913 ops/sec
+'very safe' apply push (getown/hasown) x 22,934 ops/sec ±2.04% (86 runs sampled) ⇝ from 22,466.892 to 23,401.952 ops/sec
+'very safe' apply push (try/catch) x 69,236 ops/sec ±2.49% (88 runs sampled) ⇝ from 67,510.457 to 70,961.17 ops/sec
+'very safe' apply push (try/catch apply) x 71,339 ops/sec ±1.38% (93 runs sampled) ⇝ from 70,351.336 to 72,325.999 ops/sec
+'safe' apply push x 83,199 ops/sec ±1.90% (88 runs sampled) ⇝ from 81,618.033 to 84,780.446 ops/sec
+'very safe' direct push (try/catch) x 41,905 ops/sec ±3.45% (81 runs sampled) ⇝ from 40,459.797 to 43,349.959 ops/sec
+'very safe' direct push (try/catch)(varargs) x 61,380 ops/sec ±2.64% (84 runs sampled) ⇝ from 59,757.538 to 63,003.091 ops/sec
+'very safe' direct push (try/catch push)(varargs) x 200,049 ops/sec ±1.63% (95 runs sampled) ⇝ from 196,797.173 to 203,300.73 ops/sec
+'very safe' direct push builder (try/catch push)(varargs) x 201,408 ops/sec ±1.82% (87 runs sampled) ⇝ from 197,735.247 to 205,081.094 ops/sec
+'safe' direct push x 89,364 ops/sec ±2.63% (89 runs sampled) ⇝ from 87,013.866 to 91,714.86 ops/sec
+'safe' direct push (varargs) x 194,282 ops/sec ±2.48% (91 runs sampled) ⇝ from 189,471.997 to 199,091.427 ops/sec
+'safe' direct push builder (varargs) x 201,372 ops/sec ±1.83% (90 runs sampled) ⇝ from 197,678.282 to 205,066.387 ops/sec
+'safe' direct push builder (extractor)(varargs) x 203,173 ops/sec ±1.65% (92 runs sampled) ⇝ from 199,821.437 to 206,524.768 ops/sec
+'safe' direct push builder (extractor all)(varargs) x 201,346 ops/sec ±2.03% (86 runs sampled) ⇝ from 197,256.273 to 205,435.232 ops/sec

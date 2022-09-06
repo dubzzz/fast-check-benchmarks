@@ -25,109 +25,168 @@ function onCycle(event) {
   );
 }
 
-const allBenchmarks = [
-  new Benchmark("direct push", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      instance.push(i);
-    }
-  }),
-  new Benchmark("direct [PushSymbol]", () => {
-    const instance = [];
-    instance[PushSymbol] = untouchedPush;
-    for (let i = 0; i !== NumEntries; ++i) {
-      instance[PushSymbol](i);
-    }
-  }),
-  new Benchmark("direct renewed [PushSymbol]", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      instance[PushSymbol] = untouchedPush;
-      instance[PushSymbol](i);
-      delete instance[PushSymbol];
-    }
-  }),
-  new Benchmark("call push", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      untouchedPush.call(instance, i);
-    }
-  }),
-  new Benchmark("apply push", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      untouchedPush.apply(instance, [i]);
-    }
-  }),
-  new Benchmark("'very safe' apply push (getown) (((bug)))", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      verySafeApplyBug(untouchedPush, instance, [i]);
-    }
-  }),
-  new Benchmark("'very safe' apply push (getown)", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      verySafeApply(untouchedPush, instance, [i]);
-    }
-  }),
-  new Benchmark("'very safe' apply push (getown/hasown)", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      verySafeApplyRetry(untouchedPush, instance, [i]);
-    }
-  }),
-  new Benchmark("'very safe' apply push (try/catch)", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      verySafeApplyBis(untouchedPush, instance, [i]);
-    }
-  }),
-  new Benchmark("'very safe' apply push (try/catch apply)", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      verySafeApplyBis2(untouchedPush, instance, [i]);
-    }
-  }),
-  new Benchmark("'safe' apply push", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      safeApply(untouchedPush, instance, [i]);
-    }
-  }),
-  new Benchmark("'very safe' direct push (try/catch)", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      verySafePush(instance, [i]);
-    }
-  }),
-  new Benchmark("'very safe' direct push (try/catch)(varargs)", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      verySafePush2(instance, i);
-    }
-  }),
-  new Benchmark("'very safe' direct push (try/catch push)(varargs)", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      verySafePush3(instance, i);
-    }
-  }),
-  new Benchmark("'safe' direct push", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      safePush(instance, [i]);
-    }
-  }),
-  new Benchmark("'safe' direct push (varargs)", () => {
-    const instance = [];
-    for (let i = 0; i !== NumEntries; ++i) {
-      safePush2(instance, i);
-    }
-  }),
-];
+function dryRun(pushed) {
+  // Try pushing non-numerical value to assess pushing something else does not break optims
+  const instance = [];
+  instance.push(pushed);
+  {
+    const instance2 = [];
+    instance2[PushSymbol] = untouchedPush;
+    instance2[PushSymbol](pushed);
+    delete instance2[PushSymbol];
+  }
+  untouchedPush.call(instance, pushed);
+  untouchedPush.apply(instance, [pushed]);
+  verySafeApplyBug(untouchedPush, instance, [pushed]);
+  verySafeApply(untouchedPush, instance, [pushed]);
+  verySafeApplyRetry(untouchedPush, instance, [pushed]);
+  verySafeApplyBis(untouchedPush, instance, [pushed]);
+  verySafeApplyBis2(untouchedPush, instance, [pushed]);
+  safeApply(untouchedPush, instance, [pushed]);
+  verySafePush(instance, [pushed]);
+  verySafePush2(instance, pushed);
+  verySafePush3(instance, pushed);
+  verySafePushBuilder(instance, pushed);
+  safePush(instance, [pushed]);
+  safePush2(instance, pushed);
+  safePushBuilder(instance, pushed);
+  safePushBuilder2(instance, pushed);
+  safePushBuilder3(instance, pushed);
+}
 
-Benchmark.invoke(allBenchmarks, { name: "run", queued: true, onCycle });
+function run() {
+  const allBenchmarks = [
+    new Benchmark("direct push", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        instance.push(i);
+      }
+    }),
+    new Benchmark("direct [PushSymbol]", () => {
+      const instance = [];
+      instance[PushSymbol] = untouchedPush;
+      for (let i = 0; i !== NumEntries; ++i) {
+        instance[PushSymbol](i);
+      }
+      delete instance[PushSymbol];
+    }),
+    new Benchmark("direct renewed [PushSymbol]", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        instance[PushSymbol] = untouchedPush;
+        instance[PushSymbol](i);
+        delete instance[PushSymbol];
+      }
+    }),
+    new Benchmark("call push", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        untouchedPush.call(instance, i);
+      }
+    }),
+    new Benchmark("apply push", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        untouchedPush.apply(instance, [i]);
+      }
+    }),
+    new Benchmark("'very safe' apply push (getown) (((bug)))", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        verySafeApplyBug(untouchedPush, instance, [i]);
+      }
+    }),
+    new Benchmark("'very safe' apply push (getown)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        verySafeApply(untouchedPush, instance, [i]);
+      }
+    }),
+    new Benchmark("'very safe' apply push (getown/hasown)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        verySafeApplyRetry(untouchedPush, instance, [i]);
+      }
+    }),
+    new Benchmark("'very safe' apply push (try/catch)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        verySafeApplyBis(untouchedPush, instance, [i]);
+      }
+    }),
+    new Benchmark("'very safe' apply push (try/catch apply)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        verySafeApplyBis2(untouchedPush, instance, [i]);
+      }
+    }),
+    new Benchmark("'safe' apply push", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        safeApply(untouchedPush, instance, [i]);
+      }
+    }),
+    new Benchmark("'very safe' direct push (try/catch)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        verySafePush(instance, [i]);
+      }
+    }),
+    new Benchmark("'very safe' direct push (try/catch)(varargs)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        verySafePush2(instance, i);
+      }
+    }),
+    new Benchmark("'very safe' direct push (try/catch push)(varargs)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        verySafePush3(instance, i);
+      }
+    }),
+    new Benchmark(
+      "'very safe' direct push builder (try/catch push)(varargs)",
+      () => {
+        const instance = [];
+        for (let i = 0; i !== NumEntries; ++i) {
+          verySafePushBuilder(instance, i);
+        }
+      }
+    ),
+    new Benchmark("'safe' direct push", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        safePush(instance, [i]);
+      }
+    }),
+    new Benchmark("'safe' direct push (varargs)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        safePush2(instance, i);
+      }
+    }),
+    new Benchmark("'safe' direct push builder (varargs)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        safePushBuilder(instance, i);
+      }
+    }),
+    new Benchmark("'safe' direct push builder (extractor)(varargs)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        safePushBuilder2(instance, i);
+      }
+    }),
+    new Benchmark("'safe' direct push builder (extractor all)(varargs)", () => {
+      const instance = [];
+      for (let i = 0; i !== NumEntries; ++i) {
+        safePushBuilder3(instance, i);
+      }
+    }),
+  ];
+
+  Benchmark.invoke(allBenchmarks, { name: "run", queued: true, onCycle });
+}
 
 // Others
 
@@ -243,6 +302,29 @@ function verySafePush3(instance, ...args) {
   return verySafeApplyBis(untouchedPush, instance, args);
 }
 
+function verySafeBuilder(CType, name) {
+  const untouched = CType.prototype[name];
+  function safeExtract(instance) {
+    try {
+      return instance[name];
+    } catch (err) {
+      return undefined;
+    }
+  }
+  function verySafe(instance, ...args) {
+    if (safeExtract(instance) === untouched) {
+      return instance[name](...args);
+    }
+    return verySafeApplyBis(untouched, instance, args);
+  }
+  return verySafe;
+}
+const verySafePushBuilderUnused = verySafeBuilder(Array, "concat");
+verySafePushBuilderUnused([], []);
+const verySafePushBuilderUnused2 = verySafeBuilder(String, "split");
+verySafePushBuilderUnused2("a,b,c", ",");
+const verySafePushBuilder = verySafeBuilder(Array, "push");
+
 function safePush(instance, args) {
   if (instance.push === untouchedPush) {
     return instance.push(...args);
@@ -256,3 +338,48 @@ function safePush2(instance, ...args) {
   }
   return safeApply(untouchedPush, instance, args);
 }
+
+function safeBuilder(CType, name) {
+  const untouched = CType.prototype[name];
+  function safe(instance, ...args) {
+    if (instance[name] === untouched) {
+      return instance[name](...args);
+    }
+    return safeApply(untouched, instance, args);
+  }
+  return safe;
+}
+const safePushBuilderUnused = safeBuilder(Array, "concat");
+safePushBuilderUnused([], []);
+const safePushBuilderUnused2 = safeBuilder(String, "split");
+safePushBuilderUnused2("a,b,c", ",");
+const safePushBuilder = safeBuilder(Array, "push");
+
+function safeBuilder2(CType, name, extractor) {
+  const untouched = CType.prototype[name];
+  function safe(instance, ...args) {
+    if (extractor(instance) === untouched) {
+      return instance[name](...args);
+    }
+    return safeApply(untouched, instance, args);
+  }
+  return safe;
+}
+const safePushBuilder2 = safeBuilder2(Array, "push", (i) => i.push);
+
+function safeBuilder3(CType, name, extractor) {
+  const untouched = extractor(CType.prototype);
+  function safe(instance, ...args) {
+    if (extractor(instance) === untouched) {
+      return instance[name](...args);
+    }
+    return safeApply(untouched, instance, args);
+  }
+  return safe;
+}
+const safePushBuilder3 = safeBuilder3(Array, "push", (i) => i.push);
+
+dryRun("i");
+dryRun(["i"]);
+dryRun(() => {});
+run();
