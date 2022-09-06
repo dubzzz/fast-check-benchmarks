@@ -1,40 +1,139 @@
-ForEach x 206,938,304 ops/sec ±1.54% (91 runs sampled) ⇝ from 203,746,248.125 to 210,130,359.712 ops/sec
-safeForEach x 210,920,165 ops/sec ±0.70% (94 runs sampled) ⇝ from 209,453,569.999 to 212,386,760.412 ops/sec
-IndexOf x 1,054,707,611 ops/sec ±0.59% (94 runs sampled) ⇝ from 1,048,483,444.517 to 1,060,931,778.208 ops/sec
-safeIndexOf x 27,597,459 ops/sec ±0.66% (92 runs sampled) ⇝ from 27,414,846.058 to 27,780,072.565 ops/sec
-Join x 9,166,756 ops/sec ±0.85% (91 runs sampled) ⇝ from 9,088,981.105 to 9,244,530.969 ops/sec
-safeJoin x 7,575,398 ops/sec ±0.49% (95 runs sampled) ⇝ from 7,538,338.979 to 7,612,456.573 ops/sec
-Map x 25,878,421 ops/sec ±0.77% (91 runs sampled) ⇝ from 25,679,492.065 to 26,077,349.865 ops/sec
-safeMap x 11,256,031 ops/sec ±0.88% (92 runs sampled) ⇝ from 11,156,965.853 to 11,355,096.984 ops/sec
-Filter x 38,741,283 ops/sec ±0.81% (94 runs sampled) ⇝ from 38,429,114.575 to 39,053,450.515 ops/sec
-safeFilter x 10,688,682 ops/sec ±1.97% (91 runs sampled) ⇝ from 10,478,391.184 to 10,898,972.381 ops/sec
-Push x 37,710,860 ops/sec ±1.05% (92 runs sampled) ⇝ from 37,315,265.588 to 38,106,453.808 ops/sec
-safePush x 20,329,661 ops/sec ±1.53% (93 runs sampled) ⇝ from 20,018,954.868 to 20,640,367.098 ops/sec
-Pop x 77,760,869 ops/sec ±5.70% (84 runs sampled) ⇝ from 73,326,366.978 to 82,195,371.106 ops/sec
-safePop x 10,166,345 ops/sec ±0.79% (95 runs sampled) ⇝ from 10,085,641.768 to 10,247,047.897 ops/sec
-Splice x 18,679,863 ops/sec ±1.75% (83 runs sampled) ⇝ from 18,353,655.657 to 19,006,071.155 ops/sec
-safeSplice x 12,301,499 ops/sec ±0.99% (93 runs sampled) ⇝ from 12,180,264.091 to 12,422,734.282 ops/sec
-Slice x 26,349,860 ops/sec ±1.71% (90 runs sampled) ⇝ from 25,899,537.984 to 26,800,181.749 ops/sec
-safeSlice x 17,750,092 ops/sec ±1.37% (89 runs sampled) ⇝ from 17,507,424.356 to 17,992,760.644 ops/sec
-Sort x 5,682,601 ops/sec ±0.71% (95 runs sampled) ⇝ from 5,642,346.691 to 5,722,855.387 ops/sec
-safeSort x 4,971,795 ops/sec ±1.11% (91 runs sampled) ⇝ from 4,916,762.254 to 5,026,828.397 ops/sec
-GetTime x 7,129,158 ops/sec ±1.19% (91 runs sampled) ⇝ from 7,044,058.907 to 7,214,257.033 ops/sec
-safeGetTime x 5,782,377 ops/sec ±0.92% (92 runs sampled) ⇝ from 5,729,225.684 to 5,835,529.236 ops/sec
-ToISOString x 1,015,564 ops/sec ±0.79% (93 runs sampled) ⇝ from 1,007,562.608 to 1,023,565.583 ops/sec
-safeToISOString x 981,616 ops/sec ±0.85% (93 runs sampled) ⇝ from 973,257.512 to 989,974.626 ops/sec
-Add x 29,371,216 ops/sec ±1.79% (91 runs sampled) ⇝ from 28,844,450.398 to 29,897,982.503 ops/sec
-safeAdd x 18,779,335 ops/sec ±1.29% (91 runs sampled) ⇝ from 18,536,595.084 to 19,022,073.924 ops/sec
-Split x 8,466,022 ops/sec ±1.23% (89 runs sampled) ⇝ from 8,362,023.564 to 8,570,019.959 ops/sec
-safeSplit x 3,937,287 ops/sec ±1.01% (90 runs sampled) ⇝ from 3,897,666.741 to 3,976,907.955 ops/sec
-StartsWith x 42,960,768 ops/sec ±1.78% (86 runs sampled) ⇝ from 42,193,965.533 to 43,727,571.313 ops/sec
-safeStartsWith x 6,943,683 ops/sec ±0.73% (93 runs sampled) ⇝ from 6,893,335.432 to 6,994,030.154 ops/sec
-EndsWith x 44,537,304 ops/sec ±2.63% (66 runs sampled) ⇝ from 43,367,726.796 to 45,706,881.949 ops/sec
-safeEndsWith x 6,947,604 ops/sec ±0.95% (92 runs sampled) ⇝ from 6,881,733.242 to 7,013,474.532 ops/sec
-Substring x 112,680,279 ops/sec ±4.05% (84 runs sampled) ⇝ from 108,119,827.781 to 117,240,729.547 ops/sec
-safeSubstring x 6,959,670 ops/sec ±1.01% (93 runs sampled) ⇝ from 6,889,190.579 to 7,030,150.321 ops/sec
-ToLowerCase x 108,108,697 ops/sec ±4.47% (79 runs sampled) ⇝ from 103,275,737.628 to 112,941,656.046 ops/sec
-safeToLowerCase x 6,729,209 ops/sec ±0.87% (92 runs sampled) ⇝ from 6,670,779.11 to 6,787,639.342 ops/sec
-ToUpperCase x 114,217,114 ops/sec ±11.04% (18 runs sampled) ⇝ from 101,610,326.198 to 126,823,901.293 ops/sec
-safeToUpperCase x 5,339,741 ops/sec ±1.08% (91 runs sampled) ⇝ from 5,282,061.659 to 5,397,420.419 ops/sec
-PadStart x 20,892,307 ops/sec ±1.49% (87 runs sampled) ⇝ from 20,581,731.297 to 21,202,883.572 ops/sec
-safePadStart x 5,414,969 ops/sec ±2.08% (86 runs sampled) ⇝ from 5,302,180.674 to 5,527,757.343 ops/sec
+ForEach x 198,508,460 ops/sec ±1.02% (92 runs sampled) ⇝ from 196,482,054.682 to 200,534,865.135 ops/sec
+safeForEach x 200,627,846 ops/sec ±0.88% (90 runs sampled) ⇝ from 198,861,193.804 to 202,394,497.293 ops/sec
+ForEach x 85,608,232 ops/sec ±4.88% (54 runs sampled) ⇝ from 81,428,714.28 to 89,787,749.644 ops/sec
+safeForEach x 13,322,024 ops/sec ±0.95% (52 runs sampled) ⇝ from 13,194,884.019 to 13,449,164.801 ops/sec
+ForEach x 81,419,783 ops/sec ±3.88% (81 runs sampled) ⇝ from 78,257,991.394 to 84,581,574.654 ops/sec
+safeForEach x 12,228,952 ops/sec ±0.87% (43 runs sampled) ⇝ from 12,122,708.358 to 12,335,195.739 ops/sec
+
+IndexOf x 996,196,775 ops/sec ±0.86% (92 runs sampled) ⇝ from 987,603,321.975 to 1,004,790,227.592 ops/sec
+safeIndexOf x 24,870,067 ops/sec ±2.17% (89 runs sampled) ⇝ from 24,329,754.64 to 25,410,380.286 ops/sec
+IndexOf x 110,466,032 ops/sec ±3.07% (85 runs sampled) ⇝ from 107,073,283.698 to 113,858,780.335 ops/sec
+safeIndexOf x 20,563,984 ops/sec ±1.06% (92 runs sampled) ⇝ from 20,345,990.995 to 20,781,977.682 ops/sec
+IndexOf x 100,869,105 ops/sec ±3.38% (81 runs sampled) ⇝ from 97,460,114.884 to 104,278,095.075 ops/sec
+safeIndexOf x 19,453,213 ops/sec ±0.94% (90 runs sampled) ⇝ from 19,269,783.298 to 19,636,643.534 ops/sec
+
+Join x 8,368,050 ops/sec ±1.67% (83 runs sampled) ⇝ from 8,227,981.687 to 8,508,117.346 ops/sec
+safeJoin x 7,501,009 ops/sec ±0.46% (95 runs sampled) ⇝ from 7,466,235.333 to 7,535,783.407 ops/sec
+Join x 7,539,966 ops/sec ±0.48% (93 runs sampled) ⇝ from 7,504,045.879 to 7,575,886.29 ops/sec
+safeJoin x 6,206,636 ops/sec ±0.43% (92 runs sampled) ⇝ from 6,180,068.491 to 6,233,202.84 ops/sec
+Join x 7,094,228 ops/sec ±0.59% (93 runs sampled) ⇝ from 7,052,090.409 to 7,136,365.169 ops/sec
+safeJoin x 5,903,559 ops/sec ±0.45% (93 runs sampled) ⇝ from 5,876,831.687 to 5,930,286.182 ops/sec
+
+Map x 25,199,756 ops/sec ±0.84% (91 runs sampled) ⇝ from 24,987,433.102 to 25,412,079.615 ops/sec
+safeMap x 10,961,761 ops/sec ±0.82% (89 runs sampled) ⇝ from 10,872,247.433 to 11,051,275.555 ops/sec
+Map x 17,888,970 ops/sec ±1.18% (88 runs sampled) ⇝ from 17,678,301.92 to 18,099,638.255 ops/sec
+safeMap x 8,592,658 ops/sec ±0.78% (88 runs sampled) ⇝ from 8,525,354.81 to 8,659,960.804 ops/sec
+Map x 17,723,172 ops/sec ±0.86% (93 runs sampled) ⇝ from 17,570,978.298 to 17,875,364.829 ops/sec
+safeMap x 8,758,729 ops/sec ±0.57% (95 runs sampled) ⇝ from 8,708,774.256 to 8,808,682.917 ops/sec
+
+Filter x 38,408,733 ops/sec ±0.59% (92 runs sampled) ⇝ from 38,183,407.177 to 38,634,058.629 ops/sec
+safeFilter x 11,017,799 ops/sec ±0.76% (95 runs sampled) ⇝ from 10,934,457.799 to 11,101,140.894 ops/sec
+Filter x 26,208,868 ops/sec ±0.90% (91 runs sampled) ⇝ from 25,972,901.52 to 26,444,835.104 ops/sec
+safeFilter x 8,324,407 ops/sec ±0.53% (92 runs sampled) ⇝ from 8,280,395.224 to 8,368,418.185 ops/sec
+Filter x 26,616,115 ops/sec ±1.06% (91 runs sampled) ⇝ from 26,333,800.093 to 26,898,430.436 ops/sec
+safeFilter x 8,380,601 ops/sec ±0.58% (95 runs sampled) ⇝ from 8,331,678.256 to 8,429,524.17 ops/sec
+
+Push x 38,207,920 ops/sec ±0.81% (93 runs sampled) ⇝ from 37,899,662.846 to 38,516,177.573 ops/sec
+safePush x 20,743,154 ops/sec ±0.67% (93 runs sampled) ⇝ from 20,603,409.04 to 20,882,898.265 ops/sec
+Push x 27,157,191 ops/sec ±0.75% (83 runs sampled) ⇝ from 26,953,344.421 to 27,361,036.737 ops/sec
+safePush x 15,660,548 ops/sec ±0.61% (93 runs sampled) ⇝ from 15,565,041.164 to 15,756,055.097 ops/sec
+Push x 26,642,622 ops/sec ±1.66% (92 runs sampled) ⇝ from 26,200,429.458 to 27,084,814.393 ops/sec
+safePush x 15,851,266 ops/sec ±0.56% (95 runs sampled) ⇝ from 15,761,751.116 to 15,940,781.309 ops/sec
+
+Pop x 76,043,125 ops/sec ±4.90% (82 runs sampled) ⇝ from 72,320,479.057 to 79,765,770.662 ops/sec
+safePop x 10,254,939 ops/sec ±0.70% (92 runs sampled) ⇝ from 10,183,236.38 to 10,326,642.343 ops/sec
+Pop x 42,908,374 ops/sec ±1.42% (89 runs sampled) ⇝ from 42,300,224.751 to 43,516,523.085 ops/sec
+safePop x 7,706,375 ops/sec ±1.39% (88 runs sampled) ⇝ from 7,599,383.486 to 7,813,366.249 ops/sec
+Pop x 44,033,000 ops/sec ±1.20% (93 runs sampled) ⇝ from 43,504,534.571 to 44,561,466.036 ops/sec
+safePop x 8,036,344 ops/sec ±0.67% (86 runs sampled) ⇝ from 7,982,224.943 to 8,090,463.757 ops/sec
+
+Splice x 18,863,068 ops/sec ±1.93% (87 runs sampled) ⇝ from 18,499,525.339 to 19,226,610.342 ops/sec
+safeSplice x 11,932,496 ops/sec ±1.00% (92 runs sampled) ⇝ from 11,813,137.905 to 12,051,853.583 ops/sec
+Splice x 14,759,161 ops/sec ±0.83% (86 runs sampled) ⇝ from 14,636,801.451 to 14,881,521.435 ops/sec
+safeSplice x 10,439,350 ops/sec ±0.51% (88 runs sampled) ⇝ from 10,386,240.069 to 10,492,459.763 ops/sec
+Splice x 15,042,822 ops/sec ±0.57% (90 runs sampled) ⇝ from 14,956,456.215 to 15,129,186.833 ops/sec
+safeSplice x 10,473,098 ops/sec ±0.56% (93 runs sampled) ⇝ from 10,414,206.124 to 10,531,990.364 ops/sec
+
+Slice x 26,993,428 ops/sec ±1.29% (89 runs sampled) ⇝ from 26,646,228.231 to 27,340,626.86 ops/sec
+safeSlice x 18,051,391 ops/sec ±1.57% (92 runs sampled) ⇝ from 17,768,478.242 to 18,334,304.058 ops/sec
+Slice x 22,634,683 ops/sec ±0.84% (83 runs sampled) ⇝ from 22,445,500.319 to 22,823,865.309 ops/sec
+safeSlice x 14,066,746 ops/sec ±0.79% (94 runs sampled) ⇝ from 13,955,088.833 to 14,178,402.971 ops/sec
+Slice x 21,235,252 ops/sec ±2.64% (85 runs sampled) ⇝ from 20,675,117.982 to 21,795,386.559 ops/sec
+safeSlice x 14,291,656 ops/sec ±0.69% (95 runs sampled) ⇝ from 14,193,587.796 to 14,389,724.326 ops/sec
+
+Sort x 5,695,029 ops/sec ±0.83% (96 runs sampled) ⇝ from 5,647,924.06 to 5,742,133.998 ops/sec
+safeSort x 5,000,140 ops/sec ±0.84% (95 runs sampled) ⇝ from 4,957,906.141 to 5,042,373.638 ops/sec
+Sort x 4,968,235 ops/sec ±0.47% (93 runs sampled) ⇝ from 4,944,929.481 to 4,991,539.96 ops/sec
+safeSort x 4,329,898 ops/sec ±0.50% (96 runs sampled) ⇝ from 4,308,378.99 to 4,351,417.798 ops/sec
+Sort x 5,017,004 ops/sec ±0.41% (95 runs sampled) ⇝ from 4,996,481.57 to 5,037,526.638 ops/sec
+safeSort x 4,431,644 ops/sec ±0.71% (91 runs sampled) ⇝ from 4,400,323.314 to 4,462,964.55 ops/sec
+
+GetTime x 7,214,818 ops/sec ±0.88% (91 runs sampled) ⇝ from 7,151,389.926 to 7,278,245.791 ops/sec
+safeGetTime x 5,790,146 ops/sec ±0.77% (94 runs sampled) ⇝ from 5,745,377.192 to 5,834,914.437 ops/sec
+GetTime x 5,794,188 ops/sec ±0.86% (91 runs sampled) ⇝ from 5,744,465.025 to 5,843,910.519 ops/sec
+safeGetTime x 4,898,169 ops/sec ±0.38% (94 runs sampled) ⇝ from 4,879,785.254 to 4,916,552.131 ops/sec
+GetTime x 5,897,799 ops/sec ±1.29% (90 runs sampled) ⇝ from 5,821,954.93 to 5,973,643.204 ops/sec
+safeGetTime x 5,116,134 ops/sec ±0.45% (90 runs sampled) ⇝ from 5,093,333.619 to 5,138,935.252 ops/sec
+
+ToISOString x 995,090 ops/sec ±0.53% (95 runs sampled) ⇝ from 989,804.291 to 1,000,376.225 ops/sec
+safeToISOString x 873,661 ops/sec ±1.49% (91 runs sampled) ⇝ from 860,664.069 to 886,658.792 ops/sec
+ToISOString x 862,097 ops/sec ±0.36% (92 runs sampled) ⇝ from 858,955.684 to 865,237.919 ops/sec
+safeToISOString x 828,612 ops/sec ±0.28% (95 runs sampled) ⇝ from 826,262.051 to 830,961.209 ops/sec
+ToISOString x 884,072 ops/sec ±0.92% (90 runs sampled) ⇝ from 875,915.991 to 892,227.717 ops/sec
+safeToISOString x 887,673 ops/sec ±0.36% (90 runs sampled) ⇝ from 884,462.614 to 890,883.804 ops/sec
+
+Add x 25,890,030 ops/sec ±2.08% (89 runs sampled) ⇝ from 25,350,844.759 to 26,429,214.676 ops/sec
+safeAdd x 17,456,468 ops/sec ±0.73% (91 runs sampled) ⇝ from 17,329,646.292 to 17,583,290.441 ops/sec
+Add x 24,808,909 ops/sec ±1.22% (89 runs sampled) ⇝ from 24,505,478.69 to 25,112,339.468 ops/sec
+safeAdd x 15,982,908 ops/sec ±1.04% (91 runs sampled) ⇝ from 15,816,981.671 to 16,148,834.193 ops/sec
+Add x 26,956,265 ops/sec ±1.10% (92 runs sampled) ⇝ from 26,661,020.226 to 27,251,509.95 ops/sec
+safeAdd x 17,672,226 ops/sec ±0.69% (93 runs sampled) ⇝ from 17,550,494.563 to 17,793,956.715 ops/sec
+
+Split x 7,977,801 ops/sec ±0.56% (91 runs sampled) ⇝ from 7,933,488.445 to 8,022,113.957 ops/sec
+safeSplit x 3,767,249 ops/sec ±0.63% (92 runs sampled) ⇝ from 3,743,417.892 to 3,791,079.798 ops/sec
+Split x 7,186,643 ops/sec ±0.46% (75 runs sampled) ⇝ from 7,153,798.994 to 7,219,487.593 ops/sec
+safeSplit x 3,356,375 ops/sec ±0.67% (92 runs sampled) ⇝ from 3,334,041.297 to 3,378,708.112 ops/sec
+Split x 8,042,918 ops/sec ±0.34% (96 runs sampled) ⇝ from 8,015,568.732 to 8,070,267.276 ops/sec
+safeSplit x 3,803,536 ops/sec ±0.56% (96 runs sampled) ⇝ from 3,782,138.901 to 3,824,933.926 ops/sec
+
+StartsWith x 41,416,482 ops/sec ±0.83% (91 runs sampled) ⇝ from 41,073,754.881 to 41,759,209.368 ops/sec
+safeStartsWith x 6,494,099 ops/sec ±0.59% (91 runs sampled) ⇝ from 6,455,532.487 to 6,532,666.505 ops/sec
+StartsWith x 36,473,139 ops/sec ±1.45% (90 runs sampled) ⇝ from 35,944,451.006 to 37,001,826.28 ops/sec
+safeStartsWith x 5,918,209 ops/sec ±0.46% (95 runs sampled) ⇝ from 5,891,236.736 to 5,945,181.762 ops/sec
+StartsWith x 41,352,624 ops/sec ±1.33% (87 runs sampled) ⇝ from 40,801,364.161 to 41,903,884.161 ops/sec
+safeStartsWith x 6,710,965 ops/sec ±0.37% (94 runs sampled) ⇝ from 6,685,943.094 to 6,735,987.862 ops/sec
+
+EndsWith x 42,652,008 ops/sec ±1.27% (89 runs sampled) ⇝ from 42,110,148.484 to 43,193,868.336 ops/sec
+safeEndsWith x 6,556,438 ops/sec ±1.08% (93 runs sampled) ⇝ from 6,485,447.429 to 6,627,428.602 ops/sec
+EndsWith x 38,031,270 ops/sec ±2.26% (71 runs sampled) ⇝ from 37,170,765.476 to 38,891,773.779 ops/sec
+safeEndsWith x 6,021,031 ops/sec ±0.42% (93 runs sampled) ⇝ from 5,995,682.338 to 6,046,379.475 ops/sec
+EndsWith x 44,123,751 ops/sec ±1.84% (72 runs sampled) ⇝ from 43,309,798.733 to 44,937,702.413 ops/sec
+safeEndsWith x 6,850,738 ops/sec ±0.38% (94 runs sampled) ⇝ from 6,824,579.419 to 6,876,896.205 ops/sec
+
+Substring x 103,784,487 ops/sec ±3.92% (75 runs sampled) ⇝ from 99,714,570.629 to 107,854,403.871 ops/sec
+safeSubstring x 6,607,976 ops/sec ±0.85% (90 runs sampled) ⇝ from 6,551,574.549 to 6,664,378.342 ops/sec
+Substring x 98,195,922 ops/sec ±3.60% (78 runs sampled) ⇝ from 94,662,970.089 to 101,728,873.62 ops/sec
+safeSubstring x 5,997,525 ops/sec ±0.51% (93 runs sampled) ⇝ from 5,966,913.945 to 6,028,135.295 ops/sec
+Substring x 115,168,327 ops/sec ±3.34% (86 runs sampled) ⇝ from 111,320,690.421 to 119,015,964.555 ops/sec
+safeSubstring x 6,814,509 ops/sec ±0.46% (92 runs sampled) ⇝ from 6,783,156.635 to 6,845,861.661 ops/sec
+
+ToLowerCase x 108,364,740 ops/sec ±3.48% (83 runs sampled) ⇝ from 104,591,068.884 to 112,138,411.063 ops/sec
+safeToLowerCase x 6,526,985 ops/sec ±0.53% (94 runs sampled) ⇝ from 6,492,447.29 to 6,561,522.833 ops/sec
+ToLowerCase x 96,218,642 ops/sec ±7.47% (29 runs sampled) ⇝ from 89,032,030.438 to 103,405,253.946 ops/sec
+safeToLowerCase x 5,723,986 ops/sec ±0.89% (93 runs sampled) ⇝ from 5,673,278.474 to 5,774,693.61 ops/sec
+ToLowerCase x 115,071,128 ops/sec ±3.27% (83 runs sampled) ⇝ from 111,307,669.163 to 118,834,586.504 ops/sec
+safeToLowerCase x 3,873,535 ops/sec ±14.87% (56 runs sampled) ⇝ from 3,297,509.651 to 4,449,561.013 ops/sec
+
+ToUpperCase x 119,380,546 ops/sec ±5.72% (21 runs sampled) ⇝ from 112,553,303.528 to 126,207,788.256 ops/sec
+safeToUpperCase x 5,177,779 ops/sec ±0.50% (93 runs sampled) ⇝ from 5,151,902.847 to 5,203,655.304 ops/sec
+ToUpperCase x 99,646,066 ops/sec ±3.76% (83 runs sampled) ⇝ from 95,901,230.423 to 103,390,901.917 ops/sec
+safeToUpperCase x 4,640,762 ops/sec ±0.53% (94 runs sampled) ⇝ from 4,616,152.837 to 4,665,370.992 ops/sec
+ToUpperCase x 60,274,733 ops/sec ±5.42% (65 runs sampled) ⇝ from 57,005,970.015 to 63,543,495.246 ops/sec
+safeToUpperCase x 3,188,003 ops/sec ±3.65% (74 runs sampled) ⇝ from 3,071,740.07 to 3,304,266.799 ops/sec
+
+PadStart x 20,856,747 ops/sec ±0.67% (91 runs sampled) ⇝ from 20,717,675.987 to 20,995,818.512 ops/sec
+safePadStart x 5,535,911 ops/sec ±0.85% (93 runs sampled) ⇝ from 5,488,892.638 to 5,582,928.444 ops/sec
+PadStart x 18,821,967 ops/sec ±0.71% (92 runs sampled) ⇝ from 18,687,683.196 to 18,956,249.832 ops/sec
+safePadStart x 4,997,106 ops/sec ±0.36% (96 runs sampled) ⇝ from 4,979,300.165 to 5,014,912.112 ops/sec
+PadStart x 19,936,456 ops/sec ±1.97% (87 runs sampled) ⇝ from 19,543,780.881 to 20,329,131.785 ops/sec
+safePadStart x 5,583,226 ops/sec ±0.72% (93 runs sampled) ⇝ from 5,543,257.535 to 5,623,193.879 ops/sec
