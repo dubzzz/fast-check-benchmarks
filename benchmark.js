@@ -447,6 +447,26 @@ const performanceTests = [
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
   },
   {
+    name: "Property(fc.uuid())",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.uuid(), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 1, minor: 17, patch: 0 },
+  },
+  {
+    name: "Property(fc.ulid())",
+    run: (fc) => {
+      fc.assert(
+        fc.property(fc.ulid(), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 3, minor: 11, patch: 0 },
+  },
+  {
     name: "Property(fc.webUrl())",
     run: (fc) => {
       fc.assert(
