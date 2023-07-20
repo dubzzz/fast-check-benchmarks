@@ -626,7 +626,7 @@ async function run() {
     console.log(`module url: ${url}\n`);
   }
 
-  const bench = new Bench({ warmupIterations: Math.ceil(numIterations / 10), iterations: numIterations });
+  const bench = new Bench({ warmupTime: 0, warmupIterations: Math.ceil(numIterations / 10), time: 0, iterations: numIterations });
   for (const definition of performanceTests) {
     for (const [fc, version] of fastCheckVersions) {
       if (!isCompatible(version, definition.minimalRequirements)) {
