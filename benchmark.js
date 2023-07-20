@@ -551,6 +551,16 @@ const performanceTests = [
     },
     minimalRequirements: { major: 0, minor: 0, patch: 9 },
   },
+  {
+    name: "AsyncProperty(fc.integer())",
+    run: async (fc) => {
+      await fc.assert(
+        fc.asyncProperty(fc.integer(), async (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 0, minor: 0, patch: 7 },
+  },
 ];
 
 async function run() {
