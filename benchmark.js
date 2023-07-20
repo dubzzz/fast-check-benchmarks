@@ -649,16 +649,7 @@ async function run() {
   await bench.run();
   console.log("");
 
-  console.table(
-    bench.tasks.map(({ name, result }) => {
-      return {
-        Name: name,
-        Mean: result?.mean,
-        P75: result?.p75,
-        P99: result?.p99,
-        RME: result?.rme,
-      };
-    })
-  );
+  // Report results
+  console.table(bench.table());
 }
 run().catch((err) => console.error(err));
