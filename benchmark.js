@@ -647,17 +647,32 @@ async function run() {
   // Run benchmarks
   console.log("✔️ Launching warmup phase");
   for (const bench of benchs) {
+    process.stdout.write('.');
     await bench.warmup();
   }
+  process.stdout.write('\n');
   console.log("✔️ Launching run phase");
   for (const bench of benchs) {
+    process.stdout.write('.');
     await bench.run();
   }
+  process.stdout.write('\n');
   console.log("");
 
   // Report results
+  /** @type {ReturnType<(typeof benchs)[0]['table']>} */
+  const aggregatedTable = [];
   for (const bench of benchs) {
-    console.table(bench.table());
+    if (aggregatedTable.length !== 0) {
+      const lastEntry = aggregatedTable[aggregatedTable.length-1];
+      const placeholderEntry = Object.fromEntries(
+        Object.keys(lastEntry)
+          .map(key => [key, '—'])
+      );
+      aggregatedTable.push(placeholderEntry);
+    }
+    aggregatedTable.push(...bench.table());
   }
+  console.table(aggregatedTable);
 }
 run().catch((err) => console.error(err));
