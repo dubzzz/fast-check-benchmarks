@@ -560,6 +560,7 @@ const performanceTests = [
       );
     },
     minimalRequirements: { major: 0, minor: 0, patch: 7 },
+    isAsync: true,
   },
 ];
 
@@ -637,7 +638,12 @@ async function run() {
         version
       )}`;
       // Create benchmark
-      bench.add(name, () => definition.run(fc, version));
+      bench.add(
+        name,
+        definition.isAsync
+          ? async () => await definition.run(fc, version)
+          : () => definition.run(fc, version)
+      );
       console.info(`✔️ ${name}`);
     }
     benchs.push(bench);
