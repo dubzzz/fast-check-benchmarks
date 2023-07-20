@@ -626,8 +626,9 @@ async function run() {
     console.log(`module url: ${url}\n`);
   }
 
-  const bench = new Bench({ warmupTime: 0, warmupIterations: Math.ceil(numIterations / 10), time: 0, iterations: numIterations });
+  const benchs = [];
   for (const definition of performanceTests) {
+    const bench = new Bench({ warmupTime: 0, warmupIterations: Math.ceil(numIterations / 10), time: 0, iterations: numIterations });
     for (const [fc, version] of fastCheckVersions) {
       if (!isCompatible(version, definition.minimalRequirements)) {
         continue;
@@ -639,17 +640,24 @@ async function run() {
       bench.add(name, () => definition.run(fc, version));
       console.info(`✔️ ${name}`);
     }
+    benchs.push(bench);
   }
   console.log("");
 
   // Run benchmarks
   console.log("✔️ Launching warmup phase");
-  await bench.warmup();
+  for (const bench of benchs) {
+    await bench.warmup();
+  }
   console.log("✔️ Launching run phase");
-  await bench.run();
+  for (const bench of benchs) {
+    await bench.run();
+  }
   console.log("");
 
   // Report results
-  console.table(bench.table());
+  for (const bench of benchs) {
+    console.table(bench.table());
+  }
 }
 run().catch((err) => console.error(err));
