@@ -1,6 +1,6 @@
 // @ts-check
 
-import Benchmark from "benchmark";
+import { Bench } from "tinybench";
 import process from "process";
 
 /**
@@ -46,23 +46,7 @@ function prettyPrintVersion(version) {
   return `${version.major}.${version.minor}.${version.patch}`;
 }
 
-/**
- * Print benchmark results and confidence range
- * @param {*} event
- */
-function onCycle(event) {
-  const target = event.target;
-  const hz = target.hz; // num runs per second
-  const rme = target.stats.rme; // +/-x%
-  console.log(
-    String(target) +
-      " ⇝ from " +
-      ((hz * (100 - rme)) / 100).toFixed(2) +
-      " to " +
-      ((hz * (100 + rme)) / 100).toFixed(2) +
-      " ops/sec"
-  );
-}
+
 
 const numRunsEnv = Number(process.env.NUM_RUNS || "100");
 const numRuns = Number.isNaN(numRunsEnv) ? undefined : numRunsEnv;
@@ -630,119 +614,39 @@ async function run() {
     console.log(`module url: ${url}\n`);
   }
 
-  const performanceTestsIncBenchmarks = performanceTests.map((definition) => [
-    definition,
-    [],
-  ]);
-
-  /** @type {Benchmark[]} */
-  const allBenchmarks = [];
-  for (const [definition, benchmarks] of performanceTestsIncBenchmarks) {
+  const bench = new Bench({ warmupIterations: 10, iterations: 100 });
+  for (const definition of performanceTests) {
     for (const [fc, version] of fastCheckVersions) {
       if (!isCompatible(version, definition.minimalRequirements)) {
-        benchmarks.push(null);
         continue;
       }
       const name = `${definition.name} on fast-check@${prettyPrintVersion(
         version
       )}`;
-      // Dry run...
-      // Just to avoid that benchmark pre-optimize one path because first test only deals with small numbers
-      // while others passing by the same code paths deal with mor complex structures pushing to optimization losts.
-      console.log(`Warming up: ${name}`);
-      for (let idx = 0; idx !== 25; ++idx) {
-        definition.run(fc, version);
-      }
       // Create benchmark
-      const b = new Benchmark(name, () => definition.run(fc, version), {
-        minSamples: 100,
-      });
-      benchmarks.push(b);
-      allBenchmarks.push(b);
+      bench.add(name, () => definition.run(fc, version));
+      console.info(`✔️ ${name}`);
     }
   }
   console.log("");
 
   // Run benchmarks
-  Benchmark.invoke(allBenchmarks, { name: "run", queued: true, onCycle });
+  console.log("✔️ Launching warmup phase");
+  await bench.warmup();
+  console.log("✔️ Launching run phase");
+  await bench.run();
+  console.log("");
 
-  // Create basic hz CSV
-  console.log("\n\n--- hz CSV ---\n\n");
-  console.log(
-    [
-      "Algorithm",
-      ...fastCheckVersions.map(([_, version]) => prettyPrintVersion(version)),
-    ].join(";")
+  console.table(
+    bench.tasks.map(({ name, result }) => {
+      return {
+        Name: name,
+        Mean: result?.mean,
+        P75: result?.p75,
+        P99: result?.p99,
+        RME: result?.rme,
+      };
+    })
   );
-  for (const [definition, benchmarks] of performanceTestsIncBenchmarks) {
-    console.log(
-      [
-        definition.name,
-        ...benchmarks.map((b) => (b !== null ? b.hz : "")),
-      ].join(";")
-    );
-  }
-
-  // Create basic compare CSV
-  console.log("\n\n--- variation-to-ref CSV ---\n\n");
-  console.log(
-    [
-      "Algorithm",
-      ...fastCheckVersions.map(([_, version]) => prettyPrintVersion(version)),
-    ].join(";")
-  );
-  for (const [definition, benchmarks] of performanceTestsIncBenchmarks) {
-    const refHz = benchmarks.find((b) => b !== null).hz;
-    console.log(
-      [
-        definition.name,
-        ...benchmarks.map((b) => (b !== null ? b.hz / refHz : "")),
-      ].join(";")
-    );
-  }
-
-  // Create basic compare CSV
-  console.log("\n\n--- gain-to-main CSV ---\n\n");
-  console.log(
-    [
-      "Algorithm",
-      ...fastCheckVersions.map(([_, version]) => prettyPrintVersion(version)),
-    ].join(";")
-  );
-  for (const [definition, benchmarks] of performanceTestsIncBenchmarks) {
-    const refBenchmark = benchmarks.find((b) =>
-      b.name.includes("fast-check@main")
-    );
-    console.log(
-      [
-        definition.name,
-        ...benchmarks.map((b) => {
-          if (refBenchmark == null || b === null) {
-            return "???";
-          }
-          const refHz = refBenchmark.hz;
-          const refStatsRem = refBenchmark.stats.rme;
-          const refHzMin = (refHz * (100 - refStatsRem)) / 100;
-          const refHzMax = (refHz * (100 + refStatsRem)) / 100;
-          const currentHz = b.hz;
-          const currentStatsRem = b.stats.rme;
-          const currentHzMin = (currentHz * (100 - currentStatsRem)) / 100;
-          const currentHzMax = (currentHz * (100 + currentStatsRem)) / 100;
-          if (refHzMax <= currentHzMin) {
-            const r = currentHzMin / refHzMax;
-            if (r >= 1.5) return "+++";
-            if (r >= 1.1) return "++";
-            return "+";
-          } else if (currentHzMax <= refHzMin) {
-            const r = refHzMin / currentHzMax;
-            if (r >= 1.5) return "---";
-            if (r >= 1.1) return "--";
-            return "-";
-          }
-          return "=";
-        }),
-      ].join(";")
-    );
-  }
 }
 run().catch((err) => console.error(err));
