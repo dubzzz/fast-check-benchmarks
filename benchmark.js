@@ -128,6 +128,36 @@ const performanceTests = [
     minimalRequirements: { major: 2, minor: 6, patch: 0 },
   },
   {
+    name: "Property(fc.constant('').chain(() => fc.float()))",
+    run: (fc, version) => {
+      fc.assert(
+        fc.property(
+          isCompatible(version, { major: 3, minor: 0, patch: 0 })
+            ? fc.constant('').chain(() => fc.float())
+            : fc.constant('').chain(() => fc.float({ next: true })),
+          (_unused) => true
+        ),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 2, minor: 6, patch: 0 },
+  },
+  {
+    name: "Property(fc.constant('').chain(() => fc.double()))",
+    run: (fc, version) => {
+      fc.assert(
+        fc.property(
+          isCompatible(version, { major: 3, minor: 0, patch: 0 })
+            ? fc.constant('').chain(() => fc.double())
+            : fc.constant('').chain(() => fc.double({ next:true })),
+          (_unused) => true
+        ),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 2, minor: 6, patch: 0 },
+  },
+  {
     name: "Property(fc.bigInt())",
     run: (fc) => {
       fc.assert(
