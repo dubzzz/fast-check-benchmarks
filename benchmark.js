@@ -46,10 +46,12 @@ function prettyPrintVersion(version) {
   return `${version.major}.${version.minor}.${version.patch}`;
 }
 
-
-
 const numRunsEnv = Number(process.env.NUM_RUNS || "100");
 const numRuns = Number.isNaN(numRunsEnv) ? undefined : numRunsEnv;
+
+const numIterationsEnv = Number(process.env.NUM_ITERATIONS || "100");
+const numIterations = Number.isNaN(numIterationsEnv) ? 100 : numIterationsEnv;
+
 const performanceTests = [
   {
     name: "Property(fc.boolean())",
@@ -614,7 +616,7 @@ async function run() {
     console.log(`module url: ${url}\n`);
   }
 
-  const bench = new Bench({ warmupIterations: 10, iterations: 100 });
+  const bench = new Bench({ warmupIterations: Math.ceil(numIterations / 10), iterations: numIterations });
   for (const definition of performanceTests) {
     for (const [fc, version] of fastCheckVersions) {
       if (!isCompatible(version, definition.minimalRequirements)) {

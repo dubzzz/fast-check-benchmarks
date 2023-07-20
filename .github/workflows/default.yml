@@ -13,6 +13,10 @@ on:
         description: "Number of runs"
         default: "100"
         required: true
+      numIterations:
+        description: "Number of iterations"
+        default: "100"
+        required: true
 jobs:
   benchmark:
     name: "Benchmark"
@@ -44,4 +48,5 @@ jobs:
           export EXTRA_VERSION="${{github.event.inputs.extraVersion}}"
           export LAST_N_VERSIONS="${{github.event.inputs.onlyLastNVersions}}"
           export NUM_RUNS="${{github.event.inputs.numRuns}}"
+          export NUM_ITERATIONS="${{github.event.inputs.numIterations}}"
           npm run test
