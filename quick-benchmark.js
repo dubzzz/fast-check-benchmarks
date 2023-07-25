@@ -89,7 +89,7 @@ function symbolsNewBis(normalizedBase32str) {
 }
 
 async function run() {
-  const numIterations = 10000;
+  const numIterations = 100000;
   const bench = new Bench({
     warmupTime: 0,
     warmupIterations: Math.ceil(numIterations / 10),
