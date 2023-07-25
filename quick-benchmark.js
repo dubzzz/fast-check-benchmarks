@@ -73,7 +73,7 @@ function symbolsNew(normalizedBase32str) {
   for (let index = 0; index !== normalizedBase32str.length; ++index) {
     const char = normalizedBase32str[index];
     const symbol = decodeSymbolLookupTable[char];
-    sum += symbol * Math.pow(32, normalizedBase32str.length - 1 - i);
+    sum += symbol * Math.pow(32, normalizedBase32str.length - 1 - index);
   }
   return sum;
 }
