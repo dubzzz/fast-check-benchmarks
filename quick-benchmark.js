@@ -139,6 +139,9 @@ async function run() {
   bench.add("for-loop", () => {
     symbolsNew("6YQCVVJ1XW");
   });
+  bench.add("for-loop bis", () => {
+    symbolsNewBis("6YQCVVJ1XW");
+  });
 
   await bench.warmup();
   await bench.run();
