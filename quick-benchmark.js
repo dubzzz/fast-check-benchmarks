@@ -80,8 +80,7 @@ function symbolsNew(normalizedBase32str) {
 
 function symbolsNewBis(normalizedBase32str) {
   let sum = 0;
-  let base = 1;
-  for (let index = 0; index !== normalizedBase32str.length; ++index, base *= 32) {
+  for (let index = 0, base = 1; index !== normalizedBase32str.length; ++index, base *= 32) {
     const char = normalizedBase32str[normalizedBase32str.length - index -1];
     const symbol = decodeSymbolLookupTable[char];
     sum += symbol * base;
