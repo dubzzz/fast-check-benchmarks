@@ -78,6 +78,17 @@ function symbolsNew(normalizedBase32str) {
   return sum;
 }
 
+function symbolsNewBis(normalizedBase32str) {
+  let sum = 0;
+  let base = 1;
+  for (let index = 0; index !== normalizedBase32str.length; ++index, base *= 32) {
+    const char = normalizedBase32str[normalizedBase32str.length - index -1];
+    const symbol = decodeSymbolLookupTable[char];
+    sum += symbol * base;
+  }
+  return sum;
+}
+
 async function run() {
   const numIterations = 10000;
   const bench = new Bench({
