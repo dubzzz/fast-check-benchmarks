@@ -123,10 +123,10 @@ async function run() {
   });
 
   bench.add("split->map->reduce", () => {
-    symbolsOld("7ZZZZZZZZDZ0AWTX6YQCVVJ1XW");
+    symbolsOld("6YQCVVJ1XW");
   });
   bench.add("for-loop", () => {
-    symbolsNew("7ZZZZZZZZDZ0AWTX6YQCVVJ1XW");
+    symbolsNew("6YQCVVJ1XW");
   });
 
   await bench.warmup();
