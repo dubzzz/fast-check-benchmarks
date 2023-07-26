@@ -3,6 +3,40 @@ import { Bench } from "tinybench";
 import fc3110 from "fc-3.11.0";
 import fcMain from "fc-99.99.98";
 
+function decomposeFloatOld(f) {
+  // 1 => significand 0b1   - exponent 1 (will be preferred)
+  //   => significand 0b0.1 - exponent 2
+  const maxSignificand = 1 + (2 ** 23 - 1) / 2 ** 23;
+  for (let exponent = -126; exponent !== 128; ++exponent) {
+    const powExponent = 2 ** exponent;
+    const maxForExponent = maxSignificand * powExponent;
+    if (Math.abs(f) <= maxForExponent) {
+      return { exponent, significand: f / powExponent };
+    }
+  }
+  return { exponent: Number.NaN, significand: Number.NaN };
+}
+
+const f32 = new Float32Array(1);
+const u32 = new Uint32Array(f32.buffer, f32.byteOffset);
+function bitCastFloatToUInt32(f) {
+  f32[0] = f;
+  return u32[0];
+}
+export function decomposeFloatNew(f) {
+  const bits = bitCastFloatToUInt32(f);
+  const signBit = bits >>> 31;
+  const exponentBits = (bits >>> 23) & 0xff;
+  const significandBits = bits & 0x7fffff;
+
+  const exponent = exponentBits === 0 ? -126 : exponentBits - 127;
+  let significand = exponentBits === 0 ? 0 : 1;
+  significand += significandBits / 2 ** 23;
+  significand *= signBit === 0 ? 1 : -1;
+
+  return { exponent, significand };
+}
+
 function padOld(value, constLength) {
   return (
     Array(constLength - value.length)
@@ -80,8 +114,12 @@ function symbolsNew(normalizedBase32str) {
 
 function symbolsNewBis(normalizedBase32str) {
   let sum = 0;
-  for (let index = 0, base = 1; index !== normalizedBase32str.length; ++index, base *= 32) {
-    const char = normalizedBase32str[normalizedBase32str.length - index -1];
+  for (
+    let index = 0, base = 1;
+    index !== normalizedBase32str.length;
+    ++index, base *= 32
+  ) {
+    const char = normalizedBase32str[normalizedBase32str.length - index - 1];
     const symbol = decodeSymbolLookupTable[char];
     sum += symbol * base;
   }
@@ -102,6 +140,20 @@ async function run() {
   });
   bench.add("ulid @main", () => {
     fcMain.assert(fcMain.property(fcMain.ulid(), (_u) => true));
+  });
+
+  bench.add("decomposeFloatOld(1)", () => {
+    decomposeFloatOld(1);
+  });
+  bench.add("decomposeFloatNew(1)", () => {
+    decomposeFloatNew(1);
+  });
+
+  bench.add("decomposeFloatOld(2023)", () => {
+    decomposeFloatOld(2023);
+  });
+  bench.add("decomposeFloatNew(2023)", () => {
+    decomposeFloatNew(2023);
   });
 
   bench.add("padOld('', 10)", () => {
