@@ -37,6 +37,14 @@ export function decomposeFloatNew(f) {
   return { exponent, significand };
 }
 
+function run1() {
+  return {}
+}
+
+function run2() {
+  return new Map()
+}
+
 function padOld(value, constLength) {
   return (
     Array(constLength - value.length)
@@ -192,6 +200,13 @@ async function run() {
   });
   bench.add("for-loop bis", () => {
     symbolsNewBis("6YQCVVJ1XW");
+  });
+
+  bench.add("obj", () => {
+    run1()
+  });
+  bench.add("map", () => {
+    run2();
   });
 
   await bench.warmup();
