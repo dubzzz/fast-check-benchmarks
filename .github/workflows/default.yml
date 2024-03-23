@@ -23,10 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
-      - name: Using Node v16.x
+      - name: Using Node v20.x
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: "16.x"
+          node-version: "20.x"
       - name: Install dependencies
         run: npm install
       - name: Package and Install main dependency
