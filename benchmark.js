@@ -119,8 +119,8 @@ const performanceTests = [
       fc.assert(
         fc.property(
           isCompatible(version, { major: 3, minor: 0, patch: 0 })
-            ? fc.constant('').chain(() => fc.float())
-            : fc.constant('').chain(() => fc.float({ next: true })),
+            ? fc.constant("").chain(() => fc.float())
+            : fc.constant("").chain(() => fc.float({ next: true })),
           (_unused) => true
         ),
         { numRuns }
@@ -134,8 +134,8 @@ const performanceTests = [
       fc.assert(
         fc.property(
           isCompatible(version, { major: 3, minor: 0, patch: 0 })
-            ? fc.constant('').chain(() => fc.double())
-            : fc.constant('').chain(() => fc.double({ next:true })),
+            ? fc.constant("").chain(() => fc.double())
+            : fc.constant("").chain(() => fc.double({ next: true })),
           (_unused) => true
         ),
         { numRuns }
@@ -609,6 +609,16 @@ async function run() {
       importVersion(3, 9, 0),
       importVersion(3, 10, 0),
       importVersion(3, 11, 0),
+      importVersion(3, 12, 0),
+      importVersion(3, 13, 0),
+      importVersion(3, 14, 0),
+      importVersion(3, 15, 0),
+      importVersion(3, 16, 0),
+      importVersion(3, 17, 0),
+      importVersion(3, 18, 0),
+      importVersion(3, 19, 0),
+      importVersion(3, 20, 0),
+      importVersion(3, 21, 0),
     ].slice(-onlyLastNVersions),
     importVersion(99, 99, 98),
     ...(process.env.EXTRA_VERSION ? [importVersion(99, 99, 99)] : []),
@@ -629,7 +639,12 @@ async function run() {
 
   const benchs = [];
   for (const definition of performanceTests) {
-    const bench = new Bench({ warmupTime: 0, warmupIterations: Math.ceil(numIterations / 10), time: 0, iterations: numIterations });
+    const bench = new Bench({
+      warmupTime: 0,
+      warmupIterations: Math.ceil(numIterations / 10),
+      time: 0,
+      iterations: numIterations,
+    });
     for (const [fc, version] of fastCheckVersions) {
       if (!isCompatible(version, definition.minimalRequirements)) {
         continue;
@@ -653,16 +668,16 @@ async function run() {
   // Run benchmarks
   console.log("✔️ Launching warmup phase");
   for (const bench of benchs) {
-    process.stdout.write('.');
+    process.stdout.write(".");
     await bench.warmup();
   }
-  process.stdout.write('\n');
+  process.stdout.write("\n");
   console.log("✔️ Launching run phase");
   for (const bench of benchs) {
-    process.stdout.write('.');
+    process.stdout.write(".");
     await bench.run();
   }
-  process.stdout.write('\n');
+  process.stdout.write("\n");
   console.log("");
 
   // Report results
@@ -670,10 +685,9 @@ async function run() {
   const aggregatedTable = [];
   for (const bench of benchs) {
     if (aggregatedTable.length !== 0) {
-      const lastEntry = aggregatedTable[aggregatedTable.length-1];
+      const lastEntry = aggregatedTable[aggregatedTable.length - 1];
       const placeholderEntry = Object.fromEntries(
-        Object.keys(lastEntry)
-          .map(key => [key, '—'])
+        Object.keys(lastEntry).map((key) => [key, "—"])
       );
       aggregatedTable.push(placeholderEntry);
     }
