@@ -85,14 +85,9 @@ const performanceTests = [
   },
   {
     name: "Property(fc.float())",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
-        fc.property(
-          isCompatible(version, { major: 3, minor: 0, patch: 0 })
-            ? fc.float()
-            : fc.float({ next: true }),
-          (_unused) => true
-        ),
+        fc.property(fc.float(), (_unused) => true),
         { numRuns }
       );
     },
@@ -100,14 +95,9 @@ const performanceTests = [
   },
   {
     name: "Property(fc.double())",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
-        fc.property(
-          isCompatible(version, { major: 3, minor: 0, patch: 0 })
-            ? fc.double()
-            : fc.double({ next: true }),
-          (_unused) => true
-        ),
+        fc.property(fc.double(), (_unused) => true),
         { numRuns }
       );
     },
@@ -115,12 +105,10 @@ const performanceTests = [
   },
   {
     name: "Property(fc.constant('').chain(() => fc.float()))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
         fc.property(
-          isCompatible(version, { major: 3, minor: 0, patch: 0 })
-            ? fc.constant("").chain(() => fc.float())
-            : fc.constant("").chain(() => fc.float({ next: true })),
+          fc.constant("").chain(() => fc.float()),
           (_unused) => true
         ),
         { numRuns }
@@ -130,12 +118,10 @@ const performanceTests = [
   },
   {
     name: "Property(fc.constant('').chain(() => fc.double()))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
         fc.property(
-          isCompatible(version, { major: 3, minor: 0, patch: 0 })
-            ? fc.constant("").chain(() => fc.double())
-            : fc.constant("").chain(() => fc.double({ next: true })),
+          fc.constant("").chain(() => fc.double()),
           (_unused) => true
         ),
         { numRuns }
@@ -175,12 +161,10 @@ const performanceTests = [
   },
   {
     name: "Property(fc.string({ minLength: 0, maxLength: 500, size: 'max' }))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
         fc.property(
-          isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.string({ minLength: 0, maxLength: 500, size: "max" })
-            : fc.string(0, 500),
+          fc.string({ minLength: 0, maxLength: 500, size: "max" }),
           (_unused) => true
         ),
         { numRuns }
@@ -190,12 +174,10 @@ const performanceTests = [
   },
   {
     name: "Property(fc.string({ minLength: 0, maxLength: 25_000, size: 'max' }))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
         fc.property(
-          isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.string({ minLength: 0, maxLength: 25_000, size: "max" })
-            : fc.string(0, 25_000),
+          fc.string({ minLength: 0, maxLength: 25_000, size: "max" }),
           (_unused) => true
         ),
         { numRuns }
@@ -253,16 +235,14 @@ const performanceTests = [
   },
   {
     name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 500, size: 'max' }))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
         fc.property(
-          isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.array(fc.integer(), {
-                minLength: 0,
-                maxLength: 500,
-                size: "max",
-              })
-            : fc.array(fc.integer(), 0, 500),
+          fc.array(fc.integer(), {
+            minLength: 0,
+            maxLength: 500,
+            size: "max",
+          }),
           (_unused) => true
         ),
         { numRuns }
@@ -272,16 +252,14 @@ const performanceTests = [
   },
   {
     name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 25_000, size: 'max' }))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
         fc.property(
-          isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.array(fc.integer(), {
-                minLength: 0,
-                maxLength: 25_000,
-                size: "max",
-              })
-            : fc.array(fc.integer(), 0, 25_000),
+          fc.array(fc.integer(), {
+            minLength: 0,
+            maxLength: 25_000,
+            size: "max",
+          }),
           (_unused) => true
         ),
         { numRuns }
@@ -291,14 +269,9 @@ const performanceTests = [
   },
   {
     name: "Property(fc.uniqueArray(fc.integer()))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
-        fc.property(
-          isCompatible(version, { major: 2, minor: 23, patch: 0 })
-            ? fc.uniqueArray(fc.integer())
-            : fc.set(fc.integer()),
-          (_unused) => true
-        ),
+        fc.property(fc.uniqueArray(fc.integer()), (_unused) => true),
         { numRuns }
       );
     },
@@ -306,22 +279,14 @@ const performanceTests = [
   },
   {
     name: "Property(fc.uniqueArray(fc.integer(), { minLength: 0, maxLength: 500, size:'max' }))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
         fc.property(
-          isCompatible(version, { major: 2, minor: 23, patch: 0 })
-            ? fc.uniqueArray(fc.integer(), {
-                minLength: 0,
-                maxLength: 500,
-                size: "max",
-              })
-            : isCompatible(version, { major: 2, minor: 4, patch: 0 })
-            ? fc.set(fc.integer(), {
-                minLength: 0,
-                maxLength: 500,
-                size: "max",
-              })
-            : fc.set(fc.integer(), 0, 500),
+          fc.uniqueArray(fc.integer(), {
+            minLength: 0,
+            maxLength: 500,
+            size: "max",
+          }),
           (_unused) => true
         ),
         { numRuns }
@@ -381,18 +346,13 @@ const performanceTests = [
   },
   {
     name: "Property(fc.oneof(fc.ascii()@w=1, fc.hexa()@w=2))",
-    run: (fc, version) => {
+    run: (fc) => {
       fc.assert(
         fc.property(
-          isCompatible(version, { major: 3, minor: 0, patch: 0 })
-            ? fc.oneof(
-                { arbitrary: fc.ascii(), weight: 1 },
-                { arbitrary: fc.hexa(), weight: 2 }
-              )
-            : fc.frequency(
-                { arbitrary: fc.ascii(), weight: 1 },
-                { arbitrary: fc.hexa(), weight: 2 }
-              ),
+          fc.oneof(
+            { arbitrary: fc.ascii(), weight: 1 },
+            { arbitrary: fc.hexa(), weight: 2 }
+          ),
           (_unused) => true
         ),
         { numRuns }
@@ -609,32 +569,6 @@ async function run() {
     : onlyLastNVersionsEnv;
   const fastCheckVersions = await Promise.all([
     ...[
-      importVersion(2, 0, 0),
-      importVersion(2, 1, 0),
-      importVersion(2, 2, 0),
-      importVersion(2, 3, 0),
-      importVersion(2, 4, 0),
-      importVersion(2, 5, 0),
-      importVersion(2, 6, 0),
-      importVersion(2, 7, 0),
-      importVersion(2, 8, 0),
-      importVersion(2, 9, 0),
-      importVersion(2, 10, 0),
-      importVersion(2, 11, 0),
-      importVersion(2, 12, 0),
-      importVersion(2, 13, 0),
-      importVersion(2, 14, 0),
-      importVersion(2, 15, 0),
-      importVersion(2, 16, 0),
-      importVersion(2, 17, 0),
-      importVersion(2, 18, 0),
-      importVersion(2, 19, 0),
-      importVersion(2, 20, 0),
-      importVersion(2, 21, 0),
-      importVersion(2, 22, 0),
-      importVersion(2, 23, 0),
-      importVersion(2, 24, 0),
-      importVersion(2, 25, 0),
       importVersion(3, 0, 0),
       importVersion(3, 1, 0),
       importVersion(3, 2, 0),
