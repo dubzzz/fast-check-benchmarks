@@ -186,6 +186,55 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
+    name: "Property(fc.string({ unit:'grapheme-composite' }))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc.string({ unit: "grapheme-composite" }),
+          (_unused) => true
+        ),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "Property(fc.string({ unit:'grapheme-composite', minLength: 0, maxLength: 500, size: 'max' }))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc.string({
+            unit: "grapheme-composite",
+            minLength: 0,
+            maxLength: 500,
+            size: "max",
+          }),
+          (_unused) => true
+        ),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "Property(fc.string({ unit:'grapheme-composite', minLength: 0, maxLength: 25_000, size: 'max' }))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc.string({
+            unit: "grapheme-composite",
+            minLength: 0,
+            maxLength: 25_000,
+            size: "max",
+          }),
+          (_unused) => true
+        ),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
     name: "Property(fc.string({ unit:'grapheme' }))",
     run: (fc) => {
       fc.assert(
@@ -199,7 +248,15 @@ const performanceTests = [
     name: "Property(fc.string({ unit:'grapheme', minLength: 0, maxLength: 500, size: 'max' }))",
     run: (fc) => {
       fc.assert(
-        fc.property(fc.string({ unit: "grapheme" }), (_unused) => true),
+        fc.property(
+          fc.string({
+            unit: "grapheme",
+            minLength: 0,
+            maxLength: 500,
+            size: "max",
+          }),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
@@ -591,6 +648,7 @@ async function run() {
       importVersion(3, 19, 0),
       importVersion(3, 20, 0),
       importVersion(3, 21, 0),
+      importVersion(3, 22, 0),
     ].slice(-onlyLastNVersions),
     importVersion(99, 99, 98),
     ...(process.env.EXTRA_VERSION ? [importVersion(99, 99, 99)] : []),
