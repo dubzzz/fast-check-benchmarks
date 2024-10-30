@@ -160,6 +160,19 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
+    name: "Property(fc.constant('').chain(() => fc.string()))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc.constant("").chain(() => fc.string()),
+          (_unused) => true
+        ),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 1, minor: 2, patch: 0 },
+  },
+  {
     name: "Property(fc.string({ minLength: 0, maxLength: 500, size: 'max' }))",
     run: (fc) => {
       fc.assert(
@@ -191,6 +204,21 @@ const performanceTests = [
       fc.assert(
         fc.property(
           fc.string({ unit: "grapheme-composite" }),
+          (_unused) => true
+        ),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "Property(fc.constant('').chain(() => fc.string({ unit:'grapheme-composite' })))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc
+            .constant("")
+            .chain(() => fc.string({ unit: "grapheme-composite" })),
           (_unused) => true
         ),
         { numRuns }
@@ -239,6 +267,21 @@ const performanceTests = [
     run: (fc) => {
       fc.assert(
         fc.property(fc.string({ unit: "grapheme" }), (_unused) => true),
+        { numRuns }
+      );
+    },
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "Property(fc.constant('').chain(() => fc.string({ unit:'grapheme' })))",
+    run: (fc) => {
+      fc.assert(
+        fc.property(
+          fc
+            .constant("")
+            .chain(() => fc.string({ unit: "grapheme" })),
+          (_unused) => true
+        ),
         { numRuns }
       );
     },
