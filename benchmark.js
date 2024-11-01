@@ -229,18 +229,11 @@ const arbitraryBuilders = [
   },
   {
     name: "oneof(integer@1,integer@2)",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.oneof(
-            { arbitrary: fc.integer(), weight: 1 },
-            { arbitrary: fc.integer(), weight: 2 }
-          ),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    run: (fc) =>
+      fc.oneof(
+        { arbitrary: fc.integer(), weight: 1 },
+        { arbitrary: fc.integer(), weight: 2 }
+      ),
     minimalRequirements: { major: 0, minor: 0, patch: 7 },
   },
   {
@@ -361,9 +354,10 @@ const arbitraryBuilders = [
   },
 ];
 
-const enablePropertyMode = process.env.ENABLE_PROPERTY_MODE === 'true';
-const enableAsyncPropertyMode = process.env.ENABLE_ASYNC_PROPERTY_MODE === 'true';
-const enableInitMode = process.env.ENABLE_INIT_MODE === 'true';
+const enablePropertyMode = process.env.ENABLE_PROPERTY_MODE === "true";
+const enableAsyncPropertyMode =
+  process.env.ENABLE_ASYNC_PROPERTY_MODE === "true";
+const enableInitMode = process.env.ENABLE_INIT_MODE === "true";
 
 const performanceTests = [
   ...(enablePropertyMode
