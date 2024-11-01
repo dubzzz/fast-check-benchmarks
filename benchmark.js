@@ -361,20 +361,9 @@ const arbitraryBuilders = [
   },
 ];
 
-console.log(
-  "process.env.ENABLE_PROPERTY_MODE: " + process.env.ENABLE_PROPERTY_MODE
-);
-console.log(
-  "process.env.ENABLE_ASYNC_PROPERTY_MODE: " +
-    process.env.ENABLE_ASYNC_PROPERTY_MODE
-);
-console.log("process.env.ENABLE_INIT_MODE: " + process.env.ENABLE_INIT_MODE);
-
-throw "";
-
-const enablePropertyMode = Boolean(process.env.ENABLE_PROPERTY_MODE);
-const enableAsyncPropertyMode = Boolean(process.env.ENABLE_ASYNC_PROPERTY_MODE);
-const enableInitMode = Boolean(process.env.ENABLE_INIT_MODE);
+const enablePropertyMode = process.env.ENABLE_PROPERTY_MODE === 'true';
+const enableAsyncPropertyMode = process.env.ENABLE_ASYNC_PROPERTY_MODE === 'true';
+const enableInitMode = process.env.ENABLE_INIT_MODE === 'true';
 
 const performanceTests = [
   ...(enablePropertyMode
