@@ -52,406 +52,189 @@ const numRuns = Number.isNaN(numRunsEnv) ? undefined : numRunsEnv;
 const numIterationsEnv = Number(process.env.NUM_ITERATIONS || "100");
 const numIterations = Number.isNaN(numIterationsEnv) ? 100 : numIterationsEnv;
 
-const performanceTests = [
+const arbitraryBuilders = [
   {
-    name: "Property(fc.boolean())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.boolean(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "boolean",
+    run: (fc) => fc.boolean(),
     minimalRequirements: { major: 0, minor: 0, patch: 6 },
   },
   {
-    name: "Property(fc.integer())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.integer(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "integer",
+    run: (fc) => fc.integer(),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.maxSafeInteger())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.maxSafeInteger(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "maxSafeInteger",
+    run: (fc) => fc.maxSafeInteger(),
     minimalRequirements: { major: 1, minor: 11, patch: 0 },
   },
   {
-    name: "Property(fc.float())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.float(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "float",
+    run: (fc) => fc.float(),
     minimalRequirements: { major: 2, minor: 6, patch: 0 },
   },
   {
-    name: "Property(fc.double())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.double(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "double",
+    run: (fc) => fc.double(),
     minimalRequirements: { major: 2, minor: 6, patch: 0 },
   },
   {
-    name: "Property(fc.constant('').chain(() => fc.float()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.constant("").chain(() => fc.float()),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 2, minor: 6, patch: 0 },
-  },
-  {
-    name: "Property(fc.constant('').chain(() => fc.double()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.constant("").chain(() => fc.double()),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 2, minor: 6, patch: 0 },
-  },
-  {
-    name: "Property(fc.bigInt())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.bigInt(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "bigInt",
+    run: (fc) => fc.bigInt(),
     minimalRequirements: { major: 1, minor: 9, patch: 0 },
   },
   {
-    name: "Property(fc.char())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.char(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "string",
+    run: (fc) => fc.string(),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.string())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.string(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "string@500",
+    run: (fc) =>
+      fc.string({
+        minLength: 0,
+        maxLength: 500,
+        size: "max",
+      }),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.constant('').chain(() => fc.string()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.constant("").chain(() => fc.string()),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 1, minor: 2, patch: 0 },
-  },
-  {
-    name: "Property(fc.string({ minLength: 0, maxLength: 500, size: 'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.string({ minLength: 0, maxLength: 500, size: "max" }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    name: "string@25k",
+    run: (fc) =>
+      fc.string({
+        minLength: 0,
+        maxLength: 25_000,
+        size: "max",
+      }),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.string({ minLength: 0, maxLength: 25_000, size: 'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.string({ minLength: 0, maxLength: 25_000, size: "max" }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    name: "string(grapheme-composite)",
+    run: (fc) => fc.string({ unit: "grapheme-composite" }),
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "string(grapheme-composite)@500",
+    run: (fc) =>
+      fc.string({
+        unit: "grapheme-composite",
+        minLength: 0,
+        maxLength: 500,
+        size: "max",
+      }),
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "string(grapheme-composite)@25k",
+    run: (fc) =>
+      fc.string({
+        unit: "grapheme-composite",
+        minLength: 0,
+        maxLength: 25_000,
+        size: "max",
+      }),
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "string(grapheme)",
+    run: (fc) => fc.string({ unit: "grapheme" }),
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "string(grapheme)@500",
+    run: (fc) =>
+      fc.string({
+        unit: "grapheme",
+        minLength: 0,
+        maxLength: 500,
+        size: "max",
+      }),
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "string(grapheme)@25k",
+    run: (fc) =>
+      fc.string({
+        unit: "grapheme",
+        minLength: 0,
+        maxLength: 25_000,
+        size: "max",
+      }),
+    minimalRequirements: { major: 3, minor: 22, patch: 0 },
+  },
+  {
+    name: "array(integer)",
+    run: (fc) => fc.array(fc.integer()),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.string({ unit:'grapheme-composite' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.string({ unit: "grapheme-composite" }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 3, minor: 22, patch: 0 },
-  },
-  {
-    name: "Property(fc.constant('').chain(() => fc.string({ unit:'grapheme-composite' })))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc
-            .constant("")
-            .chain(() => fc.string({ unit: "grapheme-composite" })),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 3, minor: 22, patch: 0 },
-  },
-  {
-    name: "Property(fc.string({ unit:'grapheme-composite', minLength: 0, maxLength: 500, size: 'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.string({
-            unit: "grapheme-composite",
-            minLength: 0,
-            maxLength: 500,
-            size: "max",
-          }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 3, minor: 22, patch: 0 },
-  },
-  {
-    name: "Property(fc.string({ unit:'grapheme-composite', minLength: 0, maxLength: 25_000, size: 'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.string({
-            unit: "grapheme-composite",
-            minLength: 0,
-            maxLength: 25_000,
-            size: "max",
-          }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 3, minor: 22, patch: 0 },
-  },
-  {
-    name: "Property(fc.string({ unit:'grapheme' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.string({ unit: "grapheme" }), (_unused) => true),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 3, minor: 22, patch: 0 },
-  },
-  {
-    name: "Property(fc.constant('').chain(() => fc.string({ unit:'grapheme' })))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc
-            .constant("")
-            .chain(() => fc.string({ unit: "grapheme" })),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 3, minor: 22, patch: 0 },
-  },
-  {
-    name: "Property(fc.string({ unit:'grapheme', minLength: 0, maxLength: 500, size: 'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.string({
-            unit: "grapheme",
-            minLength: 0,
-            maxLength: 500,
-            size: "max",
-          }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 3, minor: 22, patch: 0 },
-  },
-  {
-    name: "Property(fc.string({ unit:'grapheme', minLength: 0, maxLength: 25_000, size: 'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.string({
-            unit: "grapheme",
-            minLength: 0,
-            maxLength: 25_000,
-            size: "max",
-          }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 3, minor: 22, patch: 0 },
-  },
-  {
-    name: "Property(fc.array(fc.integer()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.array(fc.integer()), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "array(integer)@500",
+    run: (fc) =>
+      fc.array(fc.integer(), {
+        minLength: 0,
+        maxLength: 500,
+        size: "max",
+      }),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 500, size: 'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.array(fc.integer(), {
-            minLength: 0,
-            maxLength: 500,
-            size: "max",
-          }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    name: "array(integer)@25k",
+    run: (fc) =>
+      fc.array(fc.integer(), {
+        minLength: 0,
+        maxLength: 25_000,
+        size: "max",
+      }),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.array(fc.integer(), { minLength: 0, maxLength: 25_000, size: 'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.array(fc.integer(), {
-            minLength: 0,
-            maxLength: 25_000,
-            size: "max",
-          }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 0, minor: 0, patch: 1 },
-  },
-  {
-    name: "Property(fc.uniqueArray(fc.integer()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.uniqueArray(fc.integer()), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "uniqueArray(integer)",
+    run: (fc) => fc.uniqueArray(fc.integer()),
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
-    name: "Property(fc.uniqueArray(fc.integer(), { minLength: 0, maxLength: 500, size:'max' }))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.uniqueArray(fc.integer(), {
-            minLength: 0,
-            maxLength: 500,
-            size: "max",
-          }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    name: "uniqueArray(integer)@500",
+    run: (fc) =>
+      fc.uniqueArray(fc.integer(), {
+        minLength: 0,
+        maxLength: 500,
+        size: "max",
+      }),
     minimalRequirements: { major: 0, minor: 0, patch: 11 },
   },
   {
-    name: "Property(fc.anything())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.anything(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "anything",
+    run: (fc) => fc.anything(),
     minimalRequirements: { major: 0, minor: 0, patch: 7 },
   },
   {
-    name: "Property(fc.constant('a'))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.constant("a"), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "constant",
+    run: (fc) => fc.constant("a"),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.constantFrom('a', 'b', 'c'))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.constantFrom("a", "b", "c"), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "constantFrom(a,b,c)",
+    run: (fc) => fc.constantFrom("a", "b", "c"),
     minimalRequirements: { major: 0, minor: 0, patch: 12 },
   },
   {
-    name: "Property(fc.option(fc.integer()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.option(fc.integer()), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "option(integer)",
+    run: (fc) => fc.option(fc.integer()),
     minimalRequirements: { major: 0, minor: 0, patch: 6 },
   },
   {
-    name: "Property(fc.oneof(fc.ascii(), fc.hexa()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.oneof(fc.ascii(), fc.hexa()), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "oneof(integer,integer)",
+    run: (fc) => fc.oneof(fc.integer(), fc.integer()),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.oneof(fc.ascii()@w=1, fc.hexa()@w=2))",
+    name: "oneof(integer@1,integer@2)",
     run: (fc) => {
       fc.assert(
         fc.property(
           fc.oneof(
-            { arbitrary: fc.ascii(), weight: 1 },
-            { arbitrary: fc.hexa(), weight: 2 }
+            { arbitrary: fc.integer(), weight: 1 },
+            { arbitrary: fc.integer(), weight: 2 }
           ),
           (_unused) => true
         ),
@@ -461,45 +244,29 @@ const performanceTests = [
     minimalRequirements: { major: 0, minor: 0, patch: 7 },
   },
   {
-    name: "Property(fc.tuple(fc.ascii(), fc.hexa()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.tuple(fc.ascii(), fc.hexa()), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "tuple(integer,integer)",
+    run: (fc) => fc.tuple(fc.integer(), fc.integer()),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.record({ascii: fc.ascii(), hexa: fc.hexa()}))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.record({ ascii: fc.ascii(), hexa: fc.hexa() }),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    name: "record(integer,integer)",
+    run: (fc) => fc.record({ sa: fc.integer(), sb: fc.integer() }),
     minimalRequirements: { major: 0, minor: 0, patch: 12 },
   },
   {
-    name: "Property(<tree-with-letrec>)",
+    name: "letrec(node)",
     run: (fc) => {
       const { node } = fc.letrec((tie) => ({
         tree: fc.oneof(tie("leaf"), tie("leaf"), tie("leaf"), tie("node")),
         node: fc.tuple(tie("tree"), tie("tree")),
         leaf: fc.nat(),
       }));
-      fc.assert(
-        fc.property(node, (_unused) => true),
-        { numRuns }
-      );
+      return node;
     },
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
   {
-    name: "Property(<comment-generator-letrec>)",
+    name: "letrec(comment-generator)",
     run: (fc) => {
       const opt = (arb) => fc.option(arb).map((v) => (v !== null ? v : ""));
       const SourceCharacter = fc.oneof(fc.ascii(), fc.unicode()); // any unicode
@@ -543,123 +310,94 @@ const performanceTests = [
           )
           .map(([c, o]) => c + o),
       }));
-      fc.assert(
-        fc.property(Comment, (_unused) => true),
-        { numRuns }
-      );
+      return Comment;
     },
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
   {
-    name: "Property(fc.emailAddress())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.emailAddress(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "emailAddress",
+    run: (fc) => fc.emailAddress(),
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
   },
   {
-    name: "Property(fc.uuid())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.uuid(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "uuid",
+    run: (fc) => fc.uuid(),
     minimalRequirements: { major: 1, minor: 17, patch: 0 },
   },
   {
-    name: "Property(fc.ulid())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.ulid(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "ulid",
+    run: (fc) => fc.ulid(),
     minimalRequirements: { major: 3, minor: 11, patch: 0 },
   },
   {
-    name: "Property(fc.webUrl())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.webUrl(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "webUrl",
+    run: (fc) => fc.webUrl(),
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
   },
   {
-    name: "Property(fc.integer().filter(() => true))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.integer().filter(() => true),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    name: "integer|>filter(true)",
+    run: (fc) => fc.integer().filter(() => true),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.integer().map(n => n))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.integer().map((n) => n),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    name: "integer|>map(self)",
+    run: (fc) => fc.integer().map((n) => n),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
   },
   {
-    name: "Property(fc.integer().chain(() => fc.integer()))",
-    run: (fc) => {
-      fc.assert(
-        fc.property(
-          fc.integer().chain(() => fc.integer()),
-          (_unused) => true
-        ),
-        { numRuns }
-      );
-    },
+    name: "integer|>chain(integer)",
+    run: (fc) => fc.integer().chain(() => fc.integer()),
     minimalRequirements: { major: 1, minor: 2, patch: 0 },
   },
   {
-    name: "Property(fc.integer().noBias())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.integer().noBias(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "integer|>noBias",
+    run: (fc) => fc.integer().noBias(),
     minimalRequirements: { major: 1, minor: 1, patch: 0 },
   },
   {
-    name: "Property(fc.integer().noShrink())",
-    run: (fc) => {
-      fc.assert(
-        fc.property(fc.integer().noShrink(), (_unused) => true),
-        { numRuns }
-      );
-    },
+    name: "integer|>noShrink",
+    run: (fc) => fc.integer().noShrink(),
     minimalRequirements: { major: 0, minor: 0, patch: 9 },
   },
-  {
-    name: "AsyncProperty(fc.integer())",
-    run: async (fc) => {
-      await fc.assert(
-        fc.asyncProperty(fc.integer(), async (_unused) => true),
-        { numRuns }
-      );
-    },
-    minimalRequirements: { major: 0, minor: 0, patch: 7 },
-    isAsync: true,
-  },
+];
+
+const enablePropertyMode = Boolean(process.env.ENABLE_PROPERTY_MODE);
+const enableAsyncPropertyMode = Boolean(process.env.ENABLE_ASYNC_PROPERTY_MODE);
+const enableInitMode = Boolean(process.env.ENABLE_INIT_MODE);
+
+const performanceTests = [
+  ...(enablePropertyMode
+    ? arbitraryBuilders.map((builder) => ({
+        name: `${builder.name} [property]`,
+        run: (fc) => {
+          fc.assert(
+            fc.property(builder.run(fc), (_unused) => true),
+            { numRuns }
+          );
+        },
+        minimalRequirements: builder.minimalRequirements,
+      }))
+    : []),
+  ...(enableAsyncPropertyMode
+    ? arbitraryBuilders.map((builder) => ({
+        name: `${builder.name} [async-property]`,
+        run: async (fc) => {
+          await fc.assert(
+            fc.asyncProperty(builder.run(fc), async (_unused) => true),
+            { numRuns }
+          );
+        },
+        minimalRequirements: builder.minimalRequirements, // at least { major: 0, minor: 0, patch: 7 } for async
+        isAsync: true,
+      }))
+    : []),
+  ...(enableInitMode
+    ? arbitraryBuilders.map((builder) => ({
+        name: `${builder.name} [init]`,
+        run: (fc) => builder.run(fc),
+        minimalRequirements: builder.minimalRequirements,
+      }))
+    : []),
 ];
 
 async function run() {

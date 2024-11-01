@@ -17,6 +17,21 @@ on:
         description: "Number of iterations"
         default: "100"
         required: true
+      enablePropertyMode:
+        description: "Run synchronous properties"
+        type: boolean
+        default: true
+        required: true
+      enableAsyncPropertyMode:
+        description: "Run asynchronous properties"
+        type: boolean
+        default: false
+        required: true
+      enableInitMode:
+        description: "Initialize the arbitrary"
+        type: boolean
+        default: false
+        required: true
 jobs:
   benchmark:
     name: "Benchmark"
@@ -49,4 +64,7 @@ jobs:
           export LAST_N_VERSIONS="${{github.event.inputs.onlyLastNVersions}}"
           export NUM_RUNS="${{github.event.inputs.numRuns}}"
           export NUM_ITERATIONS="${{github.event.inputs.numIterations}}"
+          export ENABLE_PROPERTY_MODE="${{github.event.inputs.enablePropertyMode}}"
+          export ENABLE_ASYNC_PROPERTY_MODE="${{github.event.inputs.enableAsyncPropertyMode}}"
+          export ENABLE_INIT_MODE="${{github.event.inputs.enableInitMode}}"
           npm run test
