@@ -21,17 +21,18 @@ on:
         description: "Run synchronous properties"
         type: boolean
         default: true
-        required: true
       enableAsyncPropertyMode:
         description: "Run asynchronous properties"
         type: boolean
         default: false
-        required: true
+      enablePropertyNoInitMode:
+        description: "Run synchronous properties (without init)"
+        type: boolean
+        default: false
       enableInitMode:
         description: "Initialize the arbitrary"
         type: boolean
         default: false
-        required: true
 jobs:
   benchmark:
     name: "Benchmark"
@@ -66,5 +67,6 @@ jobs:
           export NUM_ITERATIONS="${{github.event.inputs.numIterations}}"
           export ENABLE_PROPERTY_MODE="${{github.event.inputs.enablePropertyMode}}"
           export ENABLE_ASYNC_PROPERTY_MODE="${{github.event.inputs.enableAsyncPropertyMode}}"
+          export ENABLE_PROPERTY_NO_INIT_MODE="${{github.event.inputs.enablePropertyNoInitMode}}"
           export ENABLE_INIT_MODE="${{github.event.inputs.enableInitMode}}"
           npm run test

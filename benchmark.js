@@ -84,6 +84,11 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 1, minor: 9, patch: 0 },
   },
   {
+    name: "date",
+    run: (fc) => fc.date(),
+    minimalRequirements: { major: 1, minor: 17, patch: 0 },
+  },
+  {
     name: "string",
     run: (fc) => fc.string(),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
@@ -208,6 +213,16 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 0, minor: 0, patch: 7 },
   },
   {
+    name: "subarray([1,2,3])",
+    run: (fc) => fc.subarray([1, 2, 3]),
+    minimalRequirements: { major: 1, minor: 5, patch: 0 },
+  },
+  {
+    name: "shuffledSubarray([1,2,3])",
+    run: (fc) => fc.shuffledSubarray([1, 2, 3]),
+    minimalRequirements: { major: 1, minor: 5, patch: 0 },
+  },
+  {
     name: "constant",
     run: (fc) => fc.constant("a"),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
@@ -216,6 +231,36 @@ const arbitraryBuilders = [
     name: "constantFrom(a,b,c)",
     run: (fc) => fc.constantFrom("a", "b", "c"),
     minimalRequirements: { major: 0, minor: 0, patch: 12 },
+  },
+  {
+    name: "mapToConstant([a-z])",
+    run: (fc) =>
+      fc.mapToConstant(
+        {
+          num: 26,
+          build: (v) => String.fromCharCode(v + 0x61)
+        },
+      ),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "mapToConstant([a-z][A-Z][0-9])",
+    run: (fc) =>
+      fc.mapToConstant(
+        {
+          num: 26,
+          build: (v) => String.fromCharCode(v + 0x61)
+        },
+        {
+          num: 26,
+          build: (v) => String.fromCharCode(v + 0x41)
+        },
+        {
+          num: 10,
+          build: (v) => String.fromCharCode(v + 0x30)
+        },
+      ),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
   },
   {
     name: "option(integer)",
@@ -308,6 +353,19 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
   {
+    name: "memo(node@2)",
+    run: (fc) => {
+      const tree = fc.memo((n) => fc.oneof(leaf(), node(n)));
+      const node = fc.memo((n) => {
+        if (n <= 1) return fc.record({ left: leaf(), right: leaf() });
+        return fc.record({ left: tree(), right: tree() });
+      });
+      const leaf = fc.nat;
+      return node(2);
+    },
+    minimalRequirements: { major: 1, minor: 16, patch: 0 },
+  },
+  {
     name: "emailAddress",
     run: (fc) => fc.emailAddress(),
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
@@ -326,6 +384,51 @@ const arbitraryBuilders = [
     name: "webUrl",
     run: (fc) => fc.webUrl(),
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "ipV4",
+    run: (fc) => fc.ipV4(),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "ipV6",
+    run: (fc) => fc.ipV6(),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "domain",
+    run: (fc) => fc.domain(),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "webPath",
+    run: (fc) => fc.webPath(),
+    minimalRequirements: { major: 3, minor: 3, patch: 0 },
+  },
+  {
+    name: "base64String",
+    run: (fc) => fc.base64String(),
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
+    name: "lorem",
+    run: (fc) => fc.lorem(),
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
+    name: "json",
+    run: (fc) => fc.json(),
+    minimalRequirements: { major: 0, minor: 0, patch: 7 },
+  },
+  {
+    name: "stringMatching(^[a-zA-Z0-9]$)",
+    run: (fc) => fc.stringMatching(/^[a-zA-Z0-9]$/),
+    minimalRequirements: { major: 3, minor: 10, patch: 0 },
+  },
+  {
+    name: "mixedCase(hello)",
+    run: (fc) => fc.mixedCase(fc.constant("hello")),
+    minimalRequirements: { major: 1, minor: 17, patch: 0 },
   },
   {
     name: "integer|>filter(true)",
@@ -357,8 +460,10 @@ const arbitraryBuilders = [
 const enablePropertyMode = process.env.ENABLE_PROPERTY_MODE === "true";
 const enableAsyncPropertyMode =
   process.env.ENABLE_ASYNC_PROPERTY_MODE === "true";
+const enablePropertyNoInitMode = process.env.ENABLE_PROPERTY_NO_INIT_MODE === "true";
 const enableInitMode = process.env.ENABLE_INIT_MODE === "true";
 
+const cached = new Map();
 const performanceTests = [
   ...(enablePropertyMode
     ? arbitraryBuilders.map((builder) => ({
@@ -366,6 +471,28 @@ const performanceTests = [
         run: (fc) => {
           fc.assert(
             fc.property(builder.run(fc), (_unused) => true),
+            { numRuns }
+          );
+        },
+        minimalRequirements: builder.minimalRequirements,
+      }))
+    : []),
+  ...(enablePropertyNoInitMode
+    ? arbitraryBuilders.map((builder) => ({
+        name: `${builder.name} [property-no-init]`,
+        run: (fc) => {
+          let forFC = cached.get(fc);
+          if (forFC === undefined) {
+            forFC = new Map();
+            cached.set(fc, forFC);
+          }
+          let arb = forFC.get(builder);
+          if (arb === undefined) {
+            arb = builder.run(fc);
+            forFC.set(builder, arb);
+          }
+          fc.assert(
+            fc.property(arb, (_unused) => true),
             { numRuns }
           );
         },
