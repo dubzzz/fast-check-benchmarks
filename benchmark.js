@@ -84,6 +84,11 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 1, minor: 9, patch: 0 },
   },
   {
+    name: "date",
+    run: (fc) => fc.date(),
+    minimalRequirements: { major: 1, minor: 17, patch: 0 },
+  },
+  {
     name: "string",
     run: (fc) => fc.string(),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
