@@ -352,6 +352,19 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 1, minor: 16, patch: 0 },
   },
   {
+    name: "memo(node@2)",
+    run: (fc) => {
+      const tree = fc.memo((n) => fc.oneof(leaf(), node(n)));
+      const node = fc.memo((n) => {
+        if (n <= 1) return fc.record({ left: leaf(), right: leaf() });
+        return fc.record({ left: tree(), right: tree() });
+      });
+      const leaf = fc.nat;
+      return node(2);
+    },
+    minimalRequirements: { major: 1, minor: 16, patch: 0 },
+  },
+  {
     name: "emailAddress",
     run: (fc) => fc.emailAddress(),
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
