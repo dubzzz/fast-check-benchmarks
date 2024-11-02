@@ -390,6 +390,11 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 3, minor: 10, patch: 0 },
   },
   {
+    name: "mixedCase(hello)",
+    run: (fc) => fc.mixedCase(fc.constant("hello")),
+    minimalRequirements: { major: 1, minor: 17, patch: 0 },
+  },
+  {
     name: "integer|>filter(true)",
     run: (fc) => fc.integer().filter(() => true),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
