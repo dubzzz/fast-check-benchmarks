@@ -21,22 +21,18 @@ on:
         description: "Run synchronous properties"
         type: boolean
         default: true
-        required: true
       enableAsyncPropertyMode:
         description: "Run asynchronous properties"
         type: boolean
         default: false
-        required: true
       enablePropertyNoInitMode:
         description: "Run synchronous properties (without init)"
         type: boolean
-        default: true
-        required: true
+        default: false
       enableInitMode:
         description: "Initialize the arbitrary"
         type: boolean
         default: false
-        required: true
 jobs:
   benchmark:
     name: "Benchmark"
