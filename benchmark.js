@@ -232,12 +232,27 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 0, minor: 0, patch: 12 },
   },
   {
-    name: "mapToConstant([a-z][0-9])",
+    name: "mapToConstant([a-z])",
     run: (fc) =>
       fc.mapToConstant(
         {
           num: 26,
           build: (v) => String.fromCharCode(v + 0x61)
+        },
+      ),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "mapToConstant([a-z][A-Z][0-9])",
+    run: (fc) =>
+      fc.mapToConstant(
+        {
+          num: 26,
+          build: (v) => String.fromCharCode(v + 0x61)
+        },
+        {
+          num: 26,
+          build: (v) => String.fromCharCode(v + 0x41)
         },
         {
           num: 10,
