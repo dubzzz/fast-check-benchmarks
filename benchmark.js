@@ -463,6 +463,7 @@ const enableAsyncPropertyMode =
 const enablePropertyNoInitMode = process.env.ENABLE_PROPERTY_NO_INIT_MODE === "true";
 const enableInitMode = process.env.ENABLE_INIT_MODE === "true";
 
+const cached = new Map();
 const performanceTests = [
   ...(enablePropertyMode
     ? arbitraryBuilders.map((builder) => ({
