@@ -385,6 +385,11 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
   },
   {
+    name: "stringMatching(^[a-zA-Z0-9]$)",
+    run: (fc) => fc.stringMatching(/^[a-zA-Z0-9]$/),
+    minimalRequirements: { major: 3, minor: 10, patch: 0 },
+  },
+  {
     name: "integer|>filter(true)",
     run: (fc) => fc.integer().filter(() => true),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
