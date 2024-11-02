@@ -385,6 +385,26 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
   },
   {
+    name: "ipV4",
+    run: (fc) => fc.ipV4(),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "ipV6",
+    run: (fc) => fc.ipV6(),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "domain",
+    run: (fc) => fc.domain(),
+    minimalRequirements: { major: 1, minor: 14, patch: 0 },
+  },
+  {
+    name: "webPath",
+    run: (fc) => fc.webPath(),
+    minimalRequirements: { major: 3, minor: 3, patch: 0 },
+  },
+  {
     name: "base64String",
     run: (fc) => fc.base64String(),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
