@@ -385,6 +385,21 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
   },
   {
+    name: "base64String",
+    run: (fc) => fc.base64String(),
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
+    name: "lorem",
+    run: (fc) => fc.lorem(),
+    minimalRequirements: { major: 0, minor: 0, patch: 1 },
+  },
+  {
+    name: "json",
+    run: (fc) => fc.json(),
+    minimalRequirements: { major: 0, minor: 0, patch: 7 },
+  },
+  {
     name: "stringMatching(^[a-zA-Z0-9]$)",
     run: (fc) => fc.stringMatching(/^[a-zA-Z0-9]$/),
     minimalRequirements: { major: 3, minor: 10, patch: 0 },
