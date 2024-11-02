@@ -213,6 +213,16 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 0, minor: 0, patch: 7 },
   },
   {
+    name: "subarray([1,2,3])",
+    run: (fc) => fc.subarray([1, 2, 3]),
+    minimalRequirements: { major: 1, minor: 5 patch: 0 },
+  },
+  {
+    name: "shuffledSubarray"([1,2,3]),
+    run: (fc) => fc.shuffledSubarray([1, 2, 3]),
+    minimalRequirements: { major: 1, minor: 5, patch: 0 },
+  },
+  {
     name: "constant",
     run: (fc) => fc.constant("a"),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
