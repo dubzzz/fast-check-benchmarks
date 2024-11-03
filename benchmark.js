@@ -426,6 +426,11 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 3, minor: 10, patch: 0 },
   },
   {
+    name: "stringMatching(ipV4)",
+    run: (fc) => fc.stringMatching(/^(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)$/),
+    minimalRequirements: { major: 3, minor: 10, patch: 0 },
+  },
+  {
     name: "mixedCase(hello)",
     run: (fc) => fc.mixedCase(fc.constant("hello")),
     minimalRequirements: { major: 1, minor: 17, patch: 0 },
