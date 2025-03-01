@@ -53,6 +53,7 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/dubzzz/fast-check.git
           cd fast-check
+          corepack enable
           yarn
           yarn build:all
           yarn pack:all
