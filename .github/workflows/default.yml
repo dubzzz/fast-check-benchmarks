@@ -52,11 +52,11 @@ jobs:
       - name: Package and Install main dependency
         run: |
           git clone --depth 1 https://github.com/dubzzz/fast-check.git
+          npm install -g pnpm
           cd fast-check
-          corepack enable
-          yarn
-          yarn build:all
-          yarn pack:all
+          pnpm install
+          pnpm run build:all
+          pnpm run pack:all
           mv packages/fast-check/package.tgz fast-check.tgz
           cd ..
           npm install fc-99.99.98@./fast-check/fast-check.tgz
