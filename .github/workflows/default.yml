@@ -29,6 +29,10 @@ on:
         description: "Run synchronous properties (without init)"
         type: boolean
         default: false
+      enablePropertyNoInitModeSingle:
+        description: "Run synchronous properties once (without init)"
+        type: boolean
+        default: false
       enableInitMode:
         description: "Initialize the arbitrary"
         type: boolean
