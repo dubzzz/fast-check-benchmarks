@@ -466,6 +466,7 @@ const enablePropertyMode = process.env.ENABLE_PROPERTY_MODE === "true";
 const enableAsyncPropertyMode =
   process.env.ENABLE_ASYNC_PROPERTY_MODE === "true";
 const enablePropertyNoInitMode = process.env.ENABLE_PROPERTY_NO_INIT_MODE === "true";
+const enablePropertyNoInitModeSingle = process.env.ENABLE_PROPERTY_NO_INIT_MODE_SINGLE === "true";
 const enableInitMode = process.env.ENABLE_INIT_MODE === "true";
 
 const cached = new Map();
@@ -499,6 +500,28 @@ const performanceTests = [
           fc.assert(
             fc.property(arb, (_unused) => true),
             { numRuns }
+          );
+        },
+        minimalRequirements: builder.minimalRequirements,
+      }))
+    : []),
+  ...(enablePropertyNoInitModeSingle
+    ? arbitraryBuilders.map((builder) => ({
+        name: `${builder.name} [property-no-init-single]`,
+        run: (fc) => {
+          let forFC = cached.get(fc);
+          if (forFC === undefined) {
+            forFC = new Map();
+            cached.set(fc, forFC);
+          }
+          let arb = forFC.get(builder);
+          if (arb === undefined) {
+            arb = builder.run(fc);
+            forFC.set(builder, arb);
+          }
+          fc.assert(
+            fc.property(arb, (_unused) => true),
+            { numRuns: 1 }
           );
         },
         minimalRequirements: builder.minimalRequirements,
