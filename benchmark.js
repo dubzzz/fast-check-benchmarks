@@ -436,6 +436,11 @@ const arbitraryBuilders = [
     minimalRequirements: { major: 1, minor: 17, patch: 0 },
   },
   {
+    name: "gen",
+    run: (fc) => fc.gen(),
+    minimalRequirements: { major: 3, minor: 8, patch: 0 },
+  },
+  {
     name: "integer|>filter(true)",
     run: (fc) => fc.integer().filter(() => true),
     minimalRequirements: { major: 0, minor: 0, patch: 1 },
