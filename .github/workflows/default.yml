@@ -5,6 +5,9 @@ on:
       extraVersion:
         description: "Extra version"
         required: false
+      filter:
+        description: "Filtering rule"
+        required: false
       onlyLastNVersions:
         description: "Only run against the last N versions"
         default: "1"
