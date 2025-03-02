@@ -70,11 +70,13 @@ jobs:
       - name: Run benchmark
         run: |
           export EXTRA_VERSION="${{github.event.inputs.extraVersion}}"
+          export FILTER="${{github.event.inputs.filter}}"
           export LAST_N_VERSIONS="${{github.event.inputs.onlyLastNVersions}}"
           export NUM_RUNS="${{github.event.inputs.numRuns}}"
           export NUM_ITERATIONS="${{github.event.inputs.numIterations}}"
           export ENABLE_PROPERTY_MODE="${{github.event.inputs.enablePropertyMode}}"
           export ENABLE_ASYNC_PROPERTY_MODE="${{github.event.inputs.enableAsyncPropertyMode}}"
           export ENABLE_PROPERTY_NO_INIT_MODE="${{github.event.inputs.enablePropertyNoInitMode}}"
+          export ENABLE_PROPERTY_NO_INIT_MODE_SINGLE="${{github.event.inputs.enablePropertyNoInitModeSingle}}"
           export ENABLE_INIT_MODE="${{github.event.inputs.enableInitMode}}"
           npm run test
