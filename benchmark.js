@@ -52,6 +52,8 @@ const numRuns = Number.isNaN(numRunsEnv) ? undefined : numRunsEnv;
 const numIterationsEnv = Number(process.env.NUM_ITERATIONS || "100");
 const numIterations = Number.isNaN(numIterationsEnv) ? 100 : numIterationsEnv;
 
+const filter = process.env.FILTER || "";
+
 const arbitraryBuilders = [
   {
     name: "boolean",
@@ -465,7 +467,7 @@ const arbitraryBuilders = [
     run: (fc) => fc.integer().noShrink(),
     minimalRequirements: { major: 0, minor: 0, patch: 9 },
   },
-];
+].filter(e => e.name.includes(filter));
 
 const enablePropertyMode = process.env.ENABLE_PROPERTY_MODE === "true";
 const enableAsyncPropertyMode =
