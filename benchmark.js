@@ -550,6 +550,19 @@ const performanceTests = [
         isAsync: true,
       }))
     : []),
+  ...(enableAsyncPropertyMode
+    ? arbitraryBuilders.map((builder) => ({
+        name: `${builder.name} [async-property-sync-predicate]`,
+        run: async (fc) => {
+          await fc.assert(
+            fc.asyncProperty(builder.run(fc), (_unused) => true),
+            { numRuns },
+          );
+        },
+        minimalRequirements: builder.minimalRequirements, // at least { major: 0, minor: 0, patch: 7 } for async
+        isAsync: true,
+      }))
+    : []),
   ...(enableInitMode
     ? arbitraryBuilders.map((builder) => ({
         name: `${builder.name} [init]`,
