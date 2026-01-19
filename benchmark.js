@@ -237,12 +237,10 @@ const arbitraryBuilders = [
   {
     name: "mapToConstant([a-z])",
     run: (fc) =>
-      fc.mapToConstant(
-        {
-          num: 26,
-          build: (v) => String.fromCharCode(v + 0x61)
-        },
-      ),
+      fc.mapToConstant({
+        num: 26,
+        build: (v) => String.fromCharCode(v + 0x61),
+      }),
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
   },
   {
@@ -251,15 +249,15 @@ const arbitraryBuilders = [
       fc.mapToConstant(
         {
           num: 26,
-          build: (v) => String.fromCharCode(v + 0x61)
+          build: (v) => String.fromCharCode(v + 0x61),
         },
         {
           num: 26,
-          build: (v) => String.fromCharCode(v + 0x41)
+          build: (v) => String.fromCharCode(v + 0x41),
         },
         {
           num: 10,
-          build: (v) => String.fromCharCode(v + 0x30)
+          build: (v) => String.fromCharCode(v + 0x30),
         },
       ),
     minimalRequirements: { major: 1, minor: 14, patch: 0 },
@@ -279,7 +277,7 @@ const arbitraryBuilders = [
     run: (fc) =>
       fc.oneof(
         { arbitrary: fc.integer(), weight: 1 },
-        { arbitrary: fc.integer(), weight: 2 }
+        { arbitrary: fc.integer(), weight: 2 },
       ),
     minimalRequirements: { major: 0, minor: 0, patch: 7 },
   },
@@ -314,28 +312,28 @@ const arbitraryBuilders = [
       const { Comment } = fc.letrec((tie) => ({
         Comment: fc.oneof(tie("MultiLineComment"), tie("SingleLineComment")),
         MultiLineComment: opt(tie("MultiLineCommentChars")).map(
-          (c) => `/*${c}*/`
+          (c) => `/*${c}*/`,
         ),
         MultiLineCommentChars: fc.oneof(
           fc
             .tuple(
               SourceCharacter.filter((c) => c !== "*"),
-              opt(tie("MultiLineCommentChars"))
+              opt(tie("MultiLineCommentChars")),
             )
             .map(([c, o]) => c + o),
-          opt(tie("PostAsteriskCommentChars")).map((o) => "*" + o)
+          opt(tie("PostAsteriskCommentChars")).map((o) => "*" + o),
         ),
         PostAsteriskCommentChars: fc.oneof(
           fc
             .tuple(
               SourceCharacter.filter((c) => c !== "*" && c !== "/"),
-              opt(tie("MultiLineCommentChars"))
+              opt(tie("MultiLineCommentChars")),
             )
             .map(([c, o]) => c + o),
-          opt(tie("PostAsteriskCommentChars")).map((o) => "*" + o)
+          opt(tie("PostAsteriskCommentChars")).map((o) => "*" + o),
         ),
         SingleLineComment: opt(tie("SingleLineCommentChars")).map(
-          (c) => `//${c}`
+          (c) => `//${c}`,
         ),
         SingleLineCommentChars: fc
           .tuple(
@@ -344,9 +342,9 @@ const arbitraryBuilders = [
                 c !== "\u000D" &&
                 c !== "\u000A" &&
                 c !== "\u2028" &&
-                c !== "\u2029" /*<LF>,<CR>,<LS>,<PS>*/
+                c !== "\u2029" /*<LF>,<CR>,<LS>,<PS>*/,
             ),
-            opt(tie("SingleLineCommentChars"))
+            opt(tie("SingleLineCommentChars")),
           )
           .map(([c, o]) => c + o),
       }));
@@ -429,7 +427,10 @@ const arbitraryBuilders = [
   },
   {
     name: "stringMatching(ipV4)",
-    run: (fc) => fc.stringMatching(/^(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)$/),
+    run: (fc) =>
+      fc.stringMatching(
+        /^(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)\.(?:\d|[1-9]\d|1\d\d|2[0-5]\d)$/,
+      ),
     minimalRequirements: { major: 3, minor: 10, patch: 0 },
   },
   {
@@ -467,13 +468,15 @@ const arbitraryBuilders = [
     run: (fc) => fc.integer().noShrink(),
     minimalRequirements: { major: 0, minor: 0, patch: 9 },
   },
-].filter(e => e.name.includes(filter));
+].filter((e) => e.name.includes(filter));
 
 const enablePropertyMode = process.env.ENABLE_PROPERTY_MODE === "true";
 const enableAsyncPropertyMode =
   process.env.ENABLE_ASYNC_PROPERTY_MODE === "true";
-const enablePropertyNoInitMode = process.env.ENABLE_PROPERTY_NO_INIT_MODE === "true";
-const enablePropertyNoInitModeSingle = process.env.ENABLE_PROPERTY_NO_INIT_MODE_SINGLE === "true";
+const enablePropertyNoInitMode =
+  process.env.ENABLE_PROPERTY_NO_INIT_MODE === "true";
+const enablePropertyNoInitModeSingle =
+  process.env.ENABLE_PROPERTY_NO_INIT_MODE_SINGLE === "true";
 const enableInitMode = process.env.ENABLE_INIT_MODE === "true";
 
 const cached = new Map();
@@ -484,7 +487,7 @@ const performanceTests = [
         run: (fc) => {
           fc.assert(
             fc.property(builder.run(fc), (_unused) => true),
-            { numRuns }
+            { numRuns },
           );
         },
         minimalRequirements: builder.minimalRequirements,
@@ -506,7 +509,7 @@ const performanceTests = [
           }
           fc.assert(
             fc.property(arb, (_unused) => true),
-            { numRuns }
+            { numRuns },
           );
         },
         minimalRequirements: builder.minimalRequirements,
@@ -528,7 +531,7 @@ const performanceTests = [
           }
           fc.assert(
             fc.property(arb, (_unused) => true),
-            { numRuns: 1 }
+            { numRuns: 1 },
           );
         },
         minimalRequirements: builder.minimalRequirements,
@@ -540,7 +543,7 @@ const performanceTests = [
         run: async (fc) => {
           await fc.assert(
             fc.asyncProperty(builder.run(fc), async (_unused) => true),
-            { numRuns }
+            { numRuns },
           );
         },
         minimalRequirements: builder.minimalRequirements, // at least { major: 0, minor: 0, patch: 7 } for async
@@ -563,30 +566,12 @@ async function run() {
     : onlyLastNVersionsEnv;
   const fastCheckVersions = await Promise.all([
     ...[
-      importVersion(3, 0, 0),
-      importVersion(3, 1, 0),
-      importVersion(3, 2, 0),
-      importVersion(3, 3, 0),
-      importVersion(3, 4, 0),
-      importVersion(3, 5, 0),
-      importVersion(3, 6, 0),
-      importVersion(3, 7, 0),
-      importVersion(3, 8, 0),
-      importVersion(3, 9, 0),
-      importVersion(3, 10, 0),
-      importVersion(3, 11, 0),
-      importVersion(3, 12, 0),
-      importVersion(3, 13, 0),
-      importVersion(3, 14, 0),
-      importVersion(3, 15, 0),
-      importVersion(3, 16, 0),
-      importVersion(3, 17, 0),
-      importVersion(3, 18, 0),
-      importVersion(3, 19, 0),
-      importVersion(3, 20, 0),
-      importVersion(3, 21, 0),
-      importVersion(3, 22, 0),
-      importVersion(3, 23, 0),
+      importVersion(4, 0, 0),
+      importVersion(4, 1, 0),
+      importVersion(4, 2, 0),
+      importVersion(4, 3, 0),
+      importVersion(4, 4, 0),
+      importVersion(4, 5, 0),
       importVersion(99, 99, 98),
     ].slice(-(onlyLastNVersions + 1)),
     ...(process.env.EXTRA_VERSION ? [importVersion(99, 99, 99)] : []),
@@ -618,14 +603,14 @@ async function run() {
         continue;
       }
       const name = `${definition.name} on fast-check@${prettyPrintVersion(
-        version
+        version,
       )}`;
       // Create benchmark
       bench.add(
         name,
         definition.isAsync
           ? async () => await definition.run(fc, version)
-          : () => definition.run(fc, version)
+          : () => definition.run(fc, version),
       );
       console.info(`✔️ ${name}`);
     }
@@ -655,7 +640,7 @@ async function run() {
     if (aggregatedTable.length !== 0) {
       const lastEntry = aggregatedTable[aggregatedTable.length - 1];
       const placeholderEntry = Object.fromEntries(
-        Object.keys(lastEntry).map((key) => [key, "—"])
+        Object.keys(lastEntry).map((key) => [key, "—"]),
       );
       aggregatedTable.push(placeholderEntry);
     }
