@@ -29,6 +29,7 @@
     "fc-4.3.0": "npm:fast-check@4.3.0",
     "fc-4.4.0": "npm:fast-check@4.4.0",
     "fc-4.5.0": "npm:fast-check@4.5.0",
+    "fc-4.6.0": "npm:fast-check@4.6.0",
     "fc-99.99.98": "npm:fast-check@*",
     "fc-99.99.99": "npm:fast-check@*",
     "microtime": "^3.0.0",
